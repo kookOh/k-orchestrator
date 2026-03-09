@@ -22,6 +22,7 @@ orchestrate-run의 전체 루프를 돌리지 않고,
 1. launch-critical이면서 READY 상태인 NOT STARTED batch
 2. launch-critical이면서 DEFERRED였으나 이제 READY로 전환 가능한 batch
 3. non-critical이지만 READY 상태인 batch
+4. 의존성(depends_on) 정보가 있으면 선행 batch 상태를 참고하여 실행 순서 판단
 
 ## 출력 형식 (한국어)
 1. 현재 프로젝트 상태 요약 (1-2줄)

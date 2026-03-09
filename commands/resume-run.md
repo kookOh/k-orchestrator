@@ -1,7 +1,7 @@
 ---
 description: 세션 재개 - 현재 상태 복원 후 다음 batch 자동 실행
 argument-hint: [optional notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 `CLAUDE.md`, `docs/EXECUTION_STATUS.md`, 미닫힘 batch 문서, 관련 QA 문서를 먼저 읽고 현재 상태를 판정하십시오.

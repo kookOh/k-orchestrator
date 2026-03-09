@@ -1,7 +1,7 @@
 ---
 description: 프로젝트 저장소의 k-orchestrator 파일 구조 정합성을 검증하고 불일치를 교정
 argument-hint: [optional notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 현재 이 프로젝트 저장소 안에서 작업하는 Claude Code입니다.

@@ -13,6 +13,11 @@
 
 ## Out of Scope
 
+## 의존성 (Dependencies)
+- 선행 batch: (없음 / BATCH_XX)
+- 외부 의존성: (없음 / 설명)
+- 비고: 이 섹션은 선택 사항입니다. next-batch 명령이 참고 정보로 활용합니다.
+
 ## source of truth 연결
 - 관련 PRD 섹션:
 - 관련 ARCHITECTURE 섹션:

@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [1.3.0] - Operational Visibility Release
+
+### 신규 기능
+- session-state-detector skill: 세션 시작 시 프로젝트 오케스트레이션 상태 자동 감지 (resume-run 수동 호출 대체)
+- dashboard: 모든 batch 파일을 파싱하여 진행 현황 단일 뷰 대시보드 제공 (진행 바, blocker 요약 포함)
+
+### 개선
+- Glob 추가: setup-project-suite, normalize-repo, resume-run, bootstrap-ops
+- Grep 추가: normalize-repo, resume-run
+- BATCH_TEMPLATE에 선택적 의존성(Dependencies) 섹션 추가
+- 명령 수 13개, skill 수 3개로 반영
+
+### 수정
+- project-settings.json K_ORCHESTRATOR_VERSION: 1.1.0 -> 1.3.0
+- claude-settings.example.json version: 1.1.0 -> 1.3.0
+
 ## [1.2.0] - Usability Release
 
 ### 신규 기능

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.2.0
+# k-orchestrator plugin installer v1.3.0
 # Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
@@ -39,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.2.0"
+echo "▶ k-orchestrator installer v1.3.0"
 echo "  target: $TARGET"
 echo ""
 
@@ -49,7 +49,8 @@ mkdir -p "$TARGET/docs" \
          "$TARGET/qa" \
          "$TARGET/.claude/commands/k-orchestrator" \
          "$TARGET/.claude/skills/k-orchestrator/batch-execution-policy" \
-         "$TARGET/.claude/skills/k-orchestrator/memory-layer-policy"
+         "$TARGET/.claude/skills/k-orchestrator/memory-layer-policy" \
+         "$TARGET/.claude/skills/k-orchestrator/session-state-detector"
 
 # 2. 핵심 운영 문서 (없을 때만 생성)
 for f in CC_ORCHESTRATOR EXECUTION_STATUS PROJECT_FOUNDATION; do
@@ -232,7 +233,7 @@ if [ "$UPDATE_MODE" = true ]; then
 fi
 
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.2.0)"
+echo "✅ k-orchestrator 설치 완료 (v1.3.0)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"
@@ -240,8 +241,8 @@ echo "  docs/EXECUTION_STATUS.md         — 실행 상태 원장"
 echo "  docs/PROJECT_FOUNDATION.md       — foundation 요약"
 echo "  tasks/BATCH_TEMPLATE.md          — batch 템플릿"
 echo "  qa/BATCH_TEMPLATE_QA.md          — QA 템플릿"
-echo "  .claude/commands/k-orchestrator/ — 12개 command"
-echo "  .claude/skills/k-orchestrator/   — 2개 policy skill"
+echo "  .claude/commands/k-orchestrator/ — 13개 command"
+echo "  .claude/skills/k-orchestrator/   — 3개 policy + 감지 skill"
 echo "  .claude/settings.json            — 프로젝트 권한"
 echo "  .claude/settings.local.json      — hooks"
 echo ""
