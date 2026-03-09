@@ -1,6 +1,6 @@
 ---
 description: 프로젝트 batch 진행 현황 대시보드 - 모든 batch 파일을 파싱하여 단일 뷰 요약 제공
-argument-hint: [optional filter: launch-critical | open | blocked]
+argument-hint: "[optional filter: launch-critical, open, blocked]"
 allowed-tools: Read, Glob
 ---
 
