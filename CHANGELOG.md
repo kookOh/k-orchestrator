@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [1.2.0] - Usability Release
+
+### 신규 기능
+- help: 상황별 명령 가이드 (8개 시나리오, 12개 명령 빠른 참조표, 워크플로우 다이어그램)
+- update: 자체 업데이트 — GitHub에서 최신 버전 확인 및 안전한 적용 (--check, --force 지원)
+
+### 개선
+- install.sh --update 플래그 추가: 기존 파일 덮어쓰기 업데이트 모드
+- install.sh --force 플래그 추가: 사용자 수정 파일 강제 업데이트
+- 명령 수 12개로 반영 (install.sh, README, INSTALL, MIGRATION)
+
 ## [1.1.0] - Hardening Release
 
 ### 신규 기능

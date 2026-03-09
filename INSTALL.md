@@ -25,7 +25,7 @@ memory skill 계층이 필요하면 설치하십시오.
 | `docs/` | CLAUDE_MEMORY_SETUP.md | memory 설정 |
 | `tasks/` | BATCH_TEMPLATE.md | batch 작성 템플릿 |
 | `qa/` | BATCH_TEMPLATE_QA.md | QA 작성 템플릿 |
-| `.claude/commands/k-orchestrator/` | *.md (10개) | 실행 명령 |
+| `.claude/commands/k-orchestrator/` | *.md (12개) | 실행 명령 |
 | `.claude/skills/k-orchestrator/` | */SKILL.md (2개) | 정책 skill |
 | `.claude/` | settings.json | 프로젝트 권한 |
 | `.claude/` | settings.local.json | hooks |
@@ -48,6 +48,8 @@ memory skill 계층이 필요하면 설치하십시오.
 | 신규 기능 | change-impact → make-extension-block |
 | 단일 batch 착수 | next-batch |
 | 구조 검증 | normalize-repo |
+| 도움말 | help |
+| 플러그인 업데이트 | update (또는 update --check) |
 
 ## settings 구조
 

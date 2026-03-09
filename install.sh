@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.1.0
-# Usage: ./install.sh [target-project-dir]
+# k-orchestrator plugin installer v1.2.0
+# Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
 
-TARGET="${1:-.}"
+UPDATE_MODE=false
+FORCE_MODE=false
+POSITIONAL_ARGS=()
+
+for arg in "$@"; do
+  case "$arg" in
+    --update) UPDATE_MODE=true ;;
+    --force) FORCE_MODE=true ;;
+    *) POSITIONAL_ARGS+=("$arg") ;;
+  esac
+done
+
+TARGET="${POSITIONAL_ARGS[0]:-.}"
 
 # TARGET 경로 검증
 if [ ! -d "$TARGET" ]; then
@@ -27,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.1.0"
+echo "▶ k-orchestrator installer v1.2.0"
 echo "  target: $TARGET"
 echo ""
 
@@ -171,8 +183,56 @@ else
   echo "  ⏭  스킵: settings.json 이미 존재"
 fi
 
+# --- UPDATE MODE: overwrite existing files ---
+if [ "$UPDATE_MODE" = true ]; then
+  echo ""
+  echo "▶ 업데이트 모드: 기존 파일을 최신 버전으로 교체합니다"
+  echo ""
+
+  # Update commands (overwrite)
+  for cmd in "$PLUGIN_DIR/commands/"*.md; do
+    [ -f "$cmd" ] || continue
+    BASENAME="$(basename "$cmd")"
+    DEST="$TARGET/.claude/commands/k-orchestrator/$BASENAME"
+    if [ -f "$DEST" ]; then
+      if [ "$FORCE_MODE" = true ]; then
+        cp "$cmd" "$DEST"
+        echo "  ✅ 덮어쓰기(force): .claude/commands/k-orchestrator/$BASENAME"
+      else
+        if diff -q "$cmd" "$DEST" > /dev/null 2>&1; then
+          echo "  ⏭  동일: .claude/commands/k-orchestrator/$BASENAME"
+        else
+          cp "$cmd" "$DEST"
+          echo "  ✅ 업데이트: .claude/commands/k-orchestrator/$BASENAME"
+        fi
+      fi
+    else
+      cp "$cmd" "$DEST"
+      echo "  ✅ 신규: .claude/commands/k-orchestrator/$BASENAME"
+    fi
+  done
+
+  # Update skills (overwrite)
+  for skill_dir in "$PLUGIN_DIR/skills/"*/; do
+    [ -d "$skill_dir" ] || continue
+    SKILL_NAME="$(basename "$skill_dir")"
+    SKILL_SRC="$skill_dir/SKILL.md"
+    SKILL_DEST="$TARGET/.claude/skills/k-orchestrator/$SKILL_NAME/SKILL.md"
+    if [ -f "$SKILL_SRC" ]; then
+      mkdir -p "$(dirname "$SKILL_DEST")"
+      cp "$SKILL_SRC" "$SKILL_DEST"
+      echo "  ✅ 업데이트: .claude/skills/k-orchestrator/$SKILL_NAME/SKILL.md"
+    fi
+  done
+
+  # Templates in docs/ tasks/ qa/ are NOT overwritten (user project files)
+  echo ""
+  echo "  ℹ️  프로젝트 문서(docs/, tasks/, qa/)는 업데이트하지 않습니다"
+  echo "  ℹ️  필요 시 수동으로 비교하십시오"
+fi
+
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.1.0)"
+echo "✅ k-orchestrator 설치 완료 (v1.2.0)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"
@@ -180,7 +240,7 @@ echo "  docs/EXECUTION_STATUS.md         — 실행 상태 원장"
 echo "  docs/PROJECT_FOUNDATION.md       — foundation 요약"
 echo "  tasks/BATCH_TEMPLATE.md          — batch 템플릿"
 echo "  qa/BATCH_TEMPLATE_QA.md          — QA 템플릿"
-echo "  .claude/commands/k-orchestrator/ — 10개 command"
+echo "  .claude/commands/k-orchestrator/ — 12개 command"
 echo "  .claude/skills/k-orchestrator/   — 2개 policy skill"
 echo "  .claude/settings.json            — 프로젝트 권한"
 echo "  .claude/settings.local.json      — hooks"

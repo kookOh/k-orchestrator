@@ -89,7 +89,7 @@ cd k-orchestrator
 
 | 구분 | 역할 | 호출 방식 |
 |---|---|---|
-| commands (10개) | 실행 명령 — batch 관리, 분석, 생성 | 사용자가 `/k-orchestrator:name` 으로 명시 호출 |
+| commands (12개) | 실행 명령 — batch 관리, 분석, 생성, 도움말, 업데이트 | 사용자가 `/k-orchestrator:name` 으로 명시 호출 |
 | skills (2개) | 정책 강제 — batch 규칙, memory 규칙 | Claude가 맥락상 자동 로드 |
 | hooks (3개) | lightweight guardrail — 세션 시작/종료 리마인더 | 이벤트 기반 자동 실행 |
 
@@ -107,6 +107,8 @@ cd k-orchestrator
 | `/k-orchestrator:setup-memory-layer` | memory 계층 설정 (선택) |
 | `/k-orchestrator:next-batch` | 다음 batch 식별 및 OPEN 준비 |
 | `/k-orchestrator:normalize-repo` | 파일 구조 정합성 검증 및 교정 |
+| `/k-orchestrator:help` | 상황별 명령 가이드 |
+| `/k-orchestrator:update` | 플러그인 자체 업데이트 |
 
 ## 설치 후 프로젝트에 생성되는 파일
 
@@ -124,7 +126,7 @@ project/
 ├── qa/
 │   └── BATCH_TEMPLATE_QA.md             ← QA 작성 템플릿
 └── .claude/
-    ├── commands/k-orchestrator/         ← 10개 command
+    ├── commands/k-orchestrator/         ← 12개 command
     ├── skills/k-orchestrator/           ← 2개 policy skill
     │   ├── batch-execution-policy/SKILL.md
     │   └── memory-layer-policy/SKILL.md
@@ -164,6 +166,14 @@ project/
 
 ### memory layer가 정말 필요할 때만
 - `/k-orchestrator:setup-memory-layer`
+
+### 도움이 필요할 때
+- `/k-orchestrator:help`
+- `/k-orchestrator:help 시작` (특정 상황 키워드로 필터)
+
+### 플러그인 업데이트
+- `/k-orchestrator:update` (확인 + 적용)
+- `/k-orchestrator:update --check` (확인만)
 
 ## 작업 상태 분류
 

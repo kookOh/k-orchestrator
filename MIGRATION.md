@@ -17,7 +17,7 @@
 - `docs/` — CC_ORCHESTRATOR.md, EXECUTION_STATUS.md, PROJECT_FOUNDATION.md
 - `tasks/` — BATCH_TEMPLATE.md (batch 작성용 템플릿)
 - `qa/` — BATCH_TEMPLATE_QA.md (QA 작성용 템플릿)
-- `.claude/commands/k-orchestrator/` — 10개 command
+- `.claude/commands/k-orchestrator/` — 12개 command
 - `.claude/skills/k-orchestrator/` — 2개 policy skill
 
 ### 2. CLAUDE.md에 import 추가
