@@ -13,6 +13,36 @@ OMC를 대체하지 않고, OMC 위에 올라가는 운영 스위트입니다.
 - PROJECT EXTENSION BLOCK 생성
 - 선택형 memory bootstrap (recall/Obsidian/QMD)
 
+## 설치
+
+### Claude Code 세션 안에서 설치 (권장)
+
+```bash
+# 1. marketplace 등록
+/plugin marketplace add kookOh/k-orchestrator
+
+# 2. 플러그인 설치 (interactive)
+/plugin
+# → Discover 탭 → k-orchestrator 선택 → Install
+```
+
+### CLI에서 설치
+
+```bash
+# plugin-dir 플래그로 직접 실행
+claude --plugin-dir /path/to/k-orchestrator
+```
+
+### install.sh로 수동 설치
+
+```bash
+git clone https://github.com/kookOh/k-orchestrator.git
+cd k-orchestrator
+./install.sh /path/to/your-project
+```
+
+설치 후 `/k-orchestrator:setup-project-suite` 로 프로젝트 부트스트랩을 시작하세요.
+
 ## 핵심 원칙
 
 - OMC는 주 실행 엔진으로 유지

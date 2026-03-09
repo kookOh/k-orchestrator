@@ -1,0 +1,31 @@
+{
+  "name": "k-orchestrator",
+  "owner": {
+    "name": "kookOh"
+  },
+  "metadata": {
+    "description": "Korean-first Claude Code plugin for batch-driven project orchestration",
+    "version": "1.1.0"
+  },
+  "plugins": [
+    {
+      "name": "k-orchestrator",
+      "source": {
+        "source": "github",
+        "repo": "kookOh/k-orchestrator",
+        "ref": "main"
+      },
+      "description": "Korean-first project execution toolkit for foundation packs, repo bootstrap, batch orchestration, change-impact analysis, and optional OMC memory bootstrap.",
+      "version": "1.1.0",
+      "author": {
+        "name": "kookOh"
+      },
+      "homepage": "https://github.com/kookOh/k-orchestrator",
+      "repository": "https://github.com/kookOh/k-orchestrator",
+      "license": "MIT",
+      "keywords": ["orchestration", "batch", "foundation", "omc", "memory", "k-orchestrator", "korean"],
+      "category": "orchestration",
+      "tags": ["batch", "project-management", "korean", "omc"]
+    }
+  ]
+}
