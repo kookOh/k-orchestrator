@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Write(docs/*)",
+      "Write(tasks/*)",
+      "Write(qa/*)",
+      "Write(.claude/commands/*)",
+      "Write(.claude/skills/*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)",
+      "Bash(git push:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "env": {
+    "K_ORCHESTRATOR_VERSION": "1.1.0",
+    "TASKS_DIR": "tasks",
+    "DOCS_DIR": "docs",
+    "QA_DIR": "qa"
+  }
+}

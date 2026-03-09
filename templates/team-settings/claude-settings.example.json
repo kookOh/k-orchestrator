@@ -1,0 +1,32 @@
+{
+  "_comment": "팀 배포용 .claude/settings.json 예시. 실제 적용 시 _comment 키를 제거하십시오.",
+  "plugins": [
+    {
+      "name": "k-orchestrator",
+      "source": "https://github.com/kookOh/k-orchestrator",
+      "version": "1.1.0"
+    }
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Write(docs/*)",
+      "Write(tasks/*)",
+      "Write(qa/*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)",
+      "Bash(git push:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "env": {
+    "K_ORCHESTRATOR_VERSION": "1.1.0"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[k-orchestrator] SessionStart: CLAUDE.md 및 docs/EXECUTION_STATUS.md를 먼저 확인하세요.'"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[k-orchestrator] PreCompact: compact 전 docs/EXECUTION_STATUS.md 업데이트 여부를 확인하세요.'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[k-orchestrator] Stop: batch 상태 및 EXECUTION_STATUS.md 업데이트가 완료되었는지 확인하세요.'"
+          }
+        ]
+      }
+    ]
+  }
+}
