@@ -24,7 +24,7 @@ $ARGUMENTS
    - `qa/BATCH_TEMPLATE_QA.md` 존재 확인
 8. `.omc/` 존재 여부 및 notepad.md 크기
 9. `.claude/commands/k-orchestrator/` 존재 여부
-10. `.claude/skills/k-orchestrator/` 존재 여부 (policy skills 설치 확인)
+10. `.claude/skills/k-orchestrator/` 존재 여부 (skills 설치 확인)
 11. `.claude/settings.local.json` 존재 여부 (hooks)
 12. `.claude/settings.json` 존재 여부 (permissions)
 13. Obsidian 또는 QMD 사용 여부
@@ -40,13 +40,19 @@ $ARGUMENTS
   - `tasks/BATCH_TEMPLATE.md` (tasks/ 디렉토리에 위치)
   - `qa/BATCH_TEMPLATE_QA.md` (qa/ 디렉토리에 위치)
 - `docs/PROJECT_FOUNDATION.md`가 없으면 placeholder 생성 + Foundation Pack 필요 여부 명시
-- OMC agent 역할명 (planner/architect/executor/verifier) 중복 정의 금지
+- OMC agent 역할명 (planner/architect/executor/verifier 등) 중복 정의 금지 — OMC가 제공하는 모든 agent 해당
 - `docs/PLUGIN_DIAGNOSTIC.md` 생성 — 진단 결과를 기록
 
 ## skills 설치 확인
 - `.claude/skills/k-orchestrator/batch-execution-policy/SKILL.md` 존재 확인
 - `.claude/skills/k-orchestrator/memory-layer-policy/SKILL.md` 존재 확인
+- `.claude/skills/k-orchestrator/session-state-detector/SKILL.md` 존재 확인
 - 누락 시 install.sh 재실행 또는 수동 복사 안내
+
+## OMC 호환성 검증
+- 프로젝트의 `docs/CC_ORCHESTRATOR.md`에서 `code-review` backtick 참조가 남아 있으면 경고
+  (OMC 4.7.8에서 `code-review` skill wrapper가 제거됨 — "code review" 자연어로 변경 필요)
+- `.claude/agents/`에 OMC agent 역할명과 중복되는 정의가 없는지 확인
 
 ## 반드시 판정
 - GLOBAL / LOCAL / HYBRID 여부

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.3.0
+# k-orchestrator plugin installer v1.3.1
 # Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
@@ -39,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.3.0"
+echo "▶ k-orchestrator installer v1.3.1"
 echo "  target: $TARGET"
 echo ""
 
@@ -144,7 +144,7 @@ for cmd in "$PLUGIN_DIR/commands/"*.md; do
   fi
 done
 
-# 5. policy skills 복사
+# 5. skills 복사 (2 policy + 1 감지)
 for skill_dir in "$PLUGIN_DIR/skills/"*/; do
   [ -d "$skill_dir" ] || continue
   SKILL_NAME="$(basename "$skill_dir")"
@@ -233,7 +233,7 @@ if [ "$UPDATE_MODE" = true ]; then
 fi
 
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.3.0)"
+echo "✅ k-orchestrator 설치 완료 (v1.3.1)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"
@@ -242,7 +242,7 @@ echo "  docs/PROJECT_FOUNDATION.md       — foundation 요약"
 echo "  tasks/BATCH_TEMPLATE.md          — batch 템플릿"
 echo "  qa/BATCH_TEMPLATE_QA.md          — QA 템플릿"
 echo "  .claude/commands/k-orchestrator/ — 13개 command"
-echo "  .claude/skills/k-orchestrator/   — 3개 policy + 감지 skill"
+echo "  .claude/skills/k-orchestrator/   — 3개 skill (2 policy + 1 감지)"
 echo "  .claude/settings.json            — 프로젝트 권한"
 echo "  .claude/settings.local.json      — hooks"
 echo ""

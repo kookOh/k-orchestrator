@@ -48,7 +48,7 @@ cd k-orchestrator
 - OMC는 주 실행 엔진으로 유지
 - `.omc/*`는 내부 상태/보조 메모리, 공식 실행 원장은 `tasks/` + `docs/EXECUTION_STATUS.md`
 - 기존 OMC `CLAUDE.md`는 덮어쓰지 않고 `@path` import 방식으로만 확장
-- OMC agent 역할명 (planner/architect/executor/verifier) 중복 정의 금지
+- OMC agent 역할명 중복 정의 금지 (planner/architect/executor/verifier 및 OMC가 제공하는 모든 agent)
 - commands는 실행 명령, skills는 정책 강제, hooks는 lightweight guardrail
 
 ## 아키텍처
@@ -128,7 +128,7 @@ project/
 │   └── BATCH_TEMPLATE_QA.md             ← QA 작성 템플릿
 └── .claude/
     ├── commands/k-orchestrator/         ← 13개 command
-    ├── skills/k-orchestrator/           ← 3개 policy skill
+    ├── skills/k-orchestrator/           ← 3개 skill (2 policy + 1 감지)
     │   ├── batch-execution-policy/SKILL.md
     │   ├── memory-layer-policy/SKILL.md
     │   └── session-state-detector/SKILL.md
@@ -204,4 +204,4 @@ project/
 - personal-os-skills 강제 설치
 - Obsidian GUI 자동 설치
 - per-prompt 자동 sync hooks
-- planner/architect/executor/verifier agent 재정의
+- OMC agent 역할명(planner/architect/executor/verifier 등) 재정의

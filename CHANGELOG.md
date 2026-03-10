@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [1.3.1] - OMC 4.7.9 Compatibility Patch
+
+### 수정
+- `code-review` skill 참조를 OMC-agnostic 자연어로 변경
+  (OMC 4.7.8에서 thin wrapper skill 제거에 따름, 4개 파일 5곳)
+- session-state-detector skill 설치 확인 목록 누락 반영 (setup-project-suite, MIGRATION)
+- "policy skill" 라벨을 "skill (2 policy + 1 감지)"로 정정
+
+### 개선
+- CC_ORCHESTRATOR_TEMPLATE: agent 충돌 방지 규칙을 hybrid 방식으로 변경
+  (핵심 4종 명시 + OMC 전체 agent 포괄 규칙)
+- setup-project-suite: 기존 프로젝트의 stale `code-review` 참조 감지 경고 추가
+
+### 호환성
+- OMC 4.1.x ~ 4.7.9 환경에서 동작 확인
+
 ## [1.3.0] - Operational Visibility Release
 
 ### 신규 기능

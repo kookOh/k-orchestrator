@@ -51,7 +51,7 @@ $ARGUMENTS
 3. OPEN batch 없으면 다음 NOT STARTED batch 식별
 4. `ralplan` 실행
 5. `ralph` 실행
-6. `code-review` 실행 (CRITICAL/HIGH/MEDIUM/LOW 분류)
+6. code review 수행 (CRITICAL/HIGH/MEDIUM/LOW 분류)
 7. CRITICAL 또는 HIGH > 0 → HARDENING
 8. HARDENING 완료 → REVIEW 재수행
 9. CRITICAL=0, HIGH=0, close pass 통과 → CLOSED

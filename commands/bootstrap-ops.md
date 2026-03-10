@@ -45,7 +45,7 @@ $ARGUMENTS
 중요: 큰 작업이라는 이유만으로 BLOCKED 분류 금지
 
 ## 운영 모델 정의
-- 언제 `ralplan` / `ralph` / `code-review`를 써야 하는지
+- 언제 `ralplan` / `ralph` / code review를 써야 하는지
 - batch 추적 및 closure 기록 방식
 - launch-critical 판정 방식
 - `.omc/*`, `recall`, `sync-claude-sessions`, Obsidian/QMD는 secondary memory로만 분류

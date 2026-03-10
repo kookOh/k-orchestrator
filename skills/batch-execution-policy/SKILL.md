@@ -11,7 +11,7 @@ When working in a project with batch execution rules:
 4. If a meaningful OPEN batch exists, finish it before opening a new one
 5. Use `ralplan` before major feature work
 6. Use `ralph` for implementation persistence
-7. Use `code-review` before closure
+7. Perform code review before closure
 8. Batch state machine transitions:
    - NOT STARTED → OPEN: ralplan complete
    - OPEN → REVIEW: ralph complete

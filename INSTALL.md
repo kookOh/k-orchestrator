@@ -26,7 +26,7 @@ memory skill 계층이 필요하면 설치하십시오.
 | `tasks/` | BATCH_TEMPLATE.md | batch 작성 템플릿 |
 | `qa/` | BATCH_TEMPLATE_QA.md | QA 작성 템플릿 |
 | `.claude/commands/k-orchestrator/` | *.md (13개) | 실행 명령 |
-| `.claude/skills/k-orchestrator/` | */SKILL.md (3개) | 정책 + 감지 skill |
+| `.claude/skills/k-orchestrator/` | */SKILL.md (3개) | skill (2 policy + 1 감지) |
 | `.claude/` | settings.json | 프로젝트 권한 |
 | `.claude/` | settings.local.json | hooks |
 | 루트 | CLAUDE.md | import 추가 |
@@ -63,6 +63,6 @@ hooks는 lightweight guardrail 역할만 합니다. per-prompt auto sync 금지.
 
 ## 주의사항
 - `CLAUDE.md`는 덮어쓰지 않고 import 추가만 수행
-- OMC agent 역할명과 동일한 subagent 정의는 충돌 유발
+- OMC agent 역할명(planner/architect/executor/verifier 등)과 동일한 subagent 정의는 충돌 유발
 - hooks는 minimal-hooks.json (matcher 포함) 형식만 사용
 - 기존 프로젝트 적용은 MIGRATION.md 참고

@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Korean-first Claude Code plugin for batch-driven project orchestration and self-update",
-    "version": "1.3.0"
+    "version": "1.3.1"
   },
   "plugins": [
     {
@@ -16,7 +16,7 @@
         "ref": "main"
       },
       "description": "Korean-first project execution toolkit for foundation packs, repo bootstrap, batch orchestration, change-impact analysis, self-update, and optional OMC memory bootstrap.",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "author": {
         "name": "kookOh"
       },
