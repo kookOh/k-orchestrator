@@ -59,8 +59,8 @@
 | SAFE_PARALLEL_WORK_REMAINS | 인간 작업 없이 병렬 진행 가능한 작업 존재 |
 
 ## Batch 상태머신 전환 규칙
-- NOT STARTED → OPEN: ralplan (/omc-plan --consensus) 완료
-- OPEN → REVIEW: ralph 완료
+- NOT STARTED → OPEN: approved planning artifact 완료 (ralplan 또는 ccg-plan)
+- OPEN → REVIEW: ralph 또는 team ralph 완료
 - REVIEW → HARDENING: CRITICAL 또는 HIGH 이슈 발견
 - REVIEW → CLOSED: CRITICAL=0, HIGH=0, close pass 통과
 - HARDENING → REVIEW: hardening 완료 후 재검토
@@ -99,12 +99,14 @@
 ### Feature task
 - 기능 추가, 라우트 추가, API 수정, 스키마 수정
 - `ralplan` → `ralph` → code review 권장
+- 대규모 feature: `ralplan` → `team ralph` → code review 가능
 - batch 문서 업데이트 필요
 
 ### Launch-critical task
 - 인증, 결제, 권한, 데이터 무결성, 배포 준비, SEO 코어 구조
 - 반드시 batch 기반으로 수행
-- `ralplan` → `ralph` → code review → hardening → close
+- `ccg-plan` → `team ralph` → code review → hardening → close 권장
+- 또는 `ralplan` → `ralph` → code review → hardening → close
 - code review 단계에서는 OMC의 code-reviewer agent가 자동 활용된다
   (이전 OMC 버전의 `code-review` skill wrapper는 4.7.8에서 제거됨)
 - EXECUTION_STATUS와 batch 문서 업데이트 필수

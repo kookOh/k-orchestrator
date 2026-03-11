@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## [1.4.0] - CCG Planning & Execution Flexibility
+
+### 신규 기능
+- ccg-plan: 3-모델 합의 계획 — Claude + Codex + Gemini 독립 계획 후 교차 검증으로 approved planning artifact 생성
+  - 7단계 프로토콜: 병렬 계획 → 합성 → Architect 검증 → 교차 모델 Critic → 반복(max 3) → 최종 산출물 → 실행 경로 안내
+  - 고정 출력 스키마: scope, touched_files, risks, review_checkpoints, test_checkpoints, close_criteria
+  - 실패 시 2-모델 또는 단독 계획으로 graceful fallback
+
+### 개선
+- 상태머신 일반화: `ralplan 완료` → `approved planning artifact 완료 (ralplan 또는 ccg-plan)`
+  - artifact 기반 전환으로 계획 도구에 비의존적 상태머신 달성
+- 실행 모드 확장: `ralph 완료` → `ralph 또는 team ralph 완료`
+- orchestrate-run: batch 유형별 휴리스틱 기본값 도입
+  - launch-critical → ccg-plan + team ralph 권장
+  - 일반 feature → ralplan + ralph 권장
+  - 대규모 feature → ralplan + team ralph 가능
+- CC_ORCHESTRATOR_TEMPLATE: Feature task, Launch-critical task 섹션에 ccg-plan + team ralph 경로 추가
+- batch-execution-policy: ccg-plan 및 team ralph 참조 추가
+- help.md: 시나리오 10 (3-모델 합의 계획) 추가, 계획/실행 모드 선택 가이드 추가
+- README: 명령 수 14개로 반영, ccg-plan 항목 추가
+
+### 호환성
+- OMC 4.1.x ~ 4.7.9 환경에서 동작 확인
+- Codex CLI 또는 Gemini CLI 미설치 시 가용 모델로 fallback
+
 ## [1.3.2] - Documentation Modernization
 
 ### 개선

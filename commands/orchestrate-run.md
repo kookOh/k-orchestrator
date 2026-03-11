@@ -13,8 +13,8 @@ $ARGUMENTS
 다음 루프를 반복하면서 프로젝트를 launch readiness 방향으로 전진시키십시오.
 
 ## Batch 상태머신 전환 규칙
-- NOT STARTED → OPEN: ralplan (/omc-plan --consensus) 완료
-- OPEN → REVIEW: ralph 완료
+- NOT STARTED → OPEN: approved planning artifact 완료 (ralplan 또는 ccg-plan)
+- OPEN → REVIEW: ralph 또는 team ralph 완료
 - REVIEW → HARDENING: CRITICAL 또는 HIGH 이슈 발견
 - REVIEW → CLOSED: CRITICAL=0, HIGH=0, close pass 통과
 - HARDENING → REVIEW: hardening 완료 후 재검토
@@ -49,8 +49,12 @@ $ARGUMENTS
 1. `docs/EXECUTION_STATUS.md`에서 현재 활성 batch 확인
 2. OPEN batch 있으면 마무리 우선
 3. OPEN batch 없으면 다음 NOT STARTED batch 식별
-4. `ralplan` 실행
-5. `ralph` 실행
+4. 계획 수립 (아래 휴리스틱에 따라 선택):
+   - launch-critical batch → `ccg-plan` 권장 (3-모델 합의 계획)
+   - 일반 feature batch → `ralplan` 권장
+5. 실행 (아래 휴리스틱에 따라 선택):
+   - launch-critical 또는 대규모 batch → `team ralph` 권장
+   - 일반 batch → `ralph` 권장
 6. code review 수행 (CRITICAL/HIGH/MEDIUM/LOW 분류)
 7. CRITICAL 또는 HIGH > 0 → HARDENING
 8. HARDENING 완료 → REVIEW 재수행

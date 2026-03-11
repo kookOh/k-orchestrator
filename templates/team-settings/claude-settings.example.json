@@ -4,7 +4,7 @@
     {
       "name": "k-orchestrator",
       "source": "https://github.com/kookOh/k-orchestrator",
-      "version": "1.3.2"
+      "version": "1.4.0"
     }
   ],
   "permissions": {
@@ -27,6 +27,6 @@
     ]
   },
   "env": {
-    "K_ORCHESTRATOR_VERSION": "1.3.2"
+    "K_ORCHESTRATOR_VERSION": "1.4.0"
   }
 }

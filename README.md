@@ -89,7 +89,7 @@ cd k-orchestrator
 
 | 구분 | 역할 | 호출 방식 |
 |---|---|---|
-| commands (13개) | 실행 명령 — batch 관리, 분석, 생성, 도움말, 업데이트, 대시보드 | 사용자가 `/k-orchestrator:name` 으로 명시 호출 |
+| commands (14개) | 실행 명령 — batch 관리, 분석, 생성, 도움말, 업데이트, 대시보드 | 사용자가 `/k-orchestrator:name` 으로 명시 호출 |
 | skills (3개) | 정책 강제 — batch 규칙, memory 규칙, 상태 감지 | Claude가 맥락상 자동 로드 |
 | hooks (3개) | lightweight guardrail — 세션 시작/종료 리마인더 | 이벤트 기반 자동 실행 |
 
@@ -109,6 +109,7 @@ cd k-orchestrator
 | `/k-orchestrator:normalize-repo` | 파일 구조 정합성 검증 및 교정 |
 | `/k-orchestrator:help` | 상황별 명령 가이드 |
 | `/k-orchestrator:update` | 플러그인 자체 업데이트 |
+| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan) |
 | `/k-orchestrator:dashboard` | batch 진행 현황 대시보드 |
 
 ## 설치 후 프로젝트에 생성되는 파일
@@ -127,7 +128,7 @@ project/
 ├── qa/
 │   └── BATCH_TEMPLATE_QA.md             ← QA 작성 템플릿
 └── .claude/
-    ├── commands/k-orchestrator/         ← 13개 command
+    ├── commands/k-orchestrator/         ← 14개 command
     ├── skills/k-orchestrator/           ← 3개 skill (2 policy + 1 감지)
     │   ├── batch-execution-policy/SKILL.md
     │   ├── memory-layer-policy/SKILL.md

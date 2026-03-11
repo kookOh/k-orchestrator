@@ -22,6 +22,7 @@ $ARGUMENTS
 - "도움", "help", "명령" → 시나리오 7
 - "업데이트", "update", "최신" → 시나리오 8
 - "대시보드", "현황", "진행", "dashboard", "progress" → 시나리오 9
+- "ccg", "3모델", "합의계획", "tri-model" → 시나리오 10
 
 키워드가 없거나 매칭되지 않으면 전체 가이드를 출력하십시오.
 
@@ -90,6 +91,13 @@ $ARGUMENTS
 /k-orchestrator:dashboard             ← batch 진행 현황 단일 뷰
 ```
 
+### 시나리오 10: launch-critical batch 계획 (3-모델 합의)
+```
+/k-orchestrator:ccg-plan              ← Claude + Codex + Gemini 3-모델 합의 계획
+         ↓
+/k-orchestrator:orchestrate-run       ← team ralph로 실행
+```
+
 ## 빠른 참조표
 
 | 호출 | 역할 | 사용 시점 |
@@ -106,6 +114,7 @@ $ARGUMENTS
 | `/k-orchestrator:normalize-repo` | 파일 구조 정합성 검증 및 교정 | 설치 후 또는 구조 의심 시 |
 | `/k-orchestrator:help` | 상황별 명령 가이드 | 어떤 명령을 써야 할지 모를 때 |
 | `/k-orchestrator:update` | 플러그인 자체 업데이트 | 새 버전 확인 및 적용 시 |
+| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan) | launch-critical batch 계획 시 |
 | `/k-orchestrator:dashboard` | batch 진행 현황 대시보드 | 전체 진행 상태 한눈에 볼 때 |
 
 ## 실행 팁
@@ -116,11 +125,12 @@ batch 완료나 HARDENING 진입 등 주요 이벤트 시 OMC 알림(v4.5.0+)을
 /oh-my-claudecode:configure-notifications   ← Telegram/Discord/Slack 알림 설정
 ```
 
-### 대규모 batch에서 /team 활용 (선택)
-`orchestrate-run`의 기본 실행 경로는 `ralplan` → `ralph`이지만,
-대규모 병렬 작업이 필요한 batch에서는 OMC `/team`을 선택적으로 활용할 수 있습니다.
+### 계획/실행 모드 선택 가이드
+`orchestrate-run`은 batch 유형에 따라 계획/실행 모드를 자동 권장합니다:
 ```
-/oh-my-claudecode:team                      ← N개 agent 병렬 실행 (plan→exec→verify→fix)
+launch-critical batch → ccg-plan + team ralph (3-모델 합의 + 병렬 실행)
+일반 feature batch   → ralplan + ralph (단일 모델 합의 + 순차 실행)
+대규모 feature batch → ralplan + team ralph (단일 모델 합의 + 병렬 실행)
 ```
 
 ## 워크플로우 다이어그램
