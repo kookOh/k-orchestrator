@@ -97,6 +97,12 @@ $ARGUMENTS
          ↓
 /k-orchestrator:orchestrate-run       ← team ralph로 실행
 ```
+또는 외부 오케스트레이터(OpenClaw 등)가 미리 계획을 생성한 경우:
+```
+/k-orchestrator:ccg-plan --external .omc/artifacts/ask/external/manifest.json
+         ↓                            ← 1단계 스킵, 2단계(합성)부터 시작
+/k-orchestrator:orchestrate-run       ← team ralph로 실행
+```
 
 ## 빠른 참조표
 
@@ -114,7 +120,7 @@ $ARGUMENTS
 | `/k-orchestrator:normalize-repo` | 파일 구조 정합성 검증 및 교정 | 설치 후 또는 구조 의심 시 |
 | `/k-orchestrator:help` | 상황별 명령 가이드 | 어떤 명령을 써야 할지 모를 때 |
 | `/k-orchestrator:update` | 플러그인 자체 업데이트 | 새 버전 확인 및 적용 시 |
-| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan) | launch-critical batch 계획 시 |
+| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan, `--external` 지원) | launch-critical batch 계획 시 |
 | `/k-orchestrator:dashboard` | batch 진행 현황 대시보드 | 전체 진행 상태 한눈에 볼 때 |
 
 ## 실행 팁

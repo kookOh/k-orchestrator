@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [1.4.1] - CCG External Mode
+
+### 신규 기능
+- ccg-plan `--external` 모드: 외부 오케스트레이터(OpenClaw 등)가 생성한 artifact를 주입하여 2~7단계만 수행
+  - manifest.json 스키마 정의 (version, models[], device_info)
+  - `.omc/artifacts/ask/external/` 네임스페이스 분리
+  - External 모드에서도 Claude 자체 분석 필수 수행 (단순 판정 아닌 독립 분석)
+  - 반복(5단계) 시 외부 재수집 불가 → Claude가 피드백 반영하여 합성 재수행
+
 ## [1.4.0] - CCG Planning & Execution Flexibility
 
 ### 신규 기능

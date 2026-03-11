@@ -109,7 +109,7 @@ cd k-orchestrator
 | `/k-orchestrator:normalize-repo` | 파일 구조 정합성 검증 및 교정 |
 | `/k-orchestrator:help` | 상황별 명령 가이드 |
 | `/k-orchestrator:update` | 플러그인 자체 업데이트 |
-| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan) |
+| `/k-orchestrator:ccg-plan` | 3-모델 합의 계획 (CCG 기반 ralplan, `--external` 지원) |
 | `/k-orchestrator:dashboard` | batch 진행 현황 대시보드 |
 
 ## 설치 후 프로젝트에 생성되는 파일

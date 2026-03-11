@@ -1,6 +1,6 @@
 ---
 description: 3-모델 합의 계획 — CCG 기반 ralplan 프로토콜로 approved planning artifact 생성
-argument-hint: [batch 작업 설명]
+argument-hint: "[batch 작업 설명]" 또는 "--external <manifest.json 경로>"
 allowed-tools: Read, Write, Bash, Glob
 ---
 
@@ -13,9 +13,74 @@ $ARGUMENTS
 3개 AI 모델(Claude, Codex, Gemini)의 독립 계획을 수집하고,
 교차 모델 검증을 거쳐 approved planning artifact를 생성하십시오.
 
+## 실행 모드 판별
+
+$ARGUMENTS에 `--external`이 포함되어 있으면 **External 모드**로 동작합니다.
+
+### External 모드 (`--external <manifest-path>`)
+
+외부 오케스트레이터(OpenClaw 등)가 이미 3개 CLI를 호출하여 계획 artifact를 생성한 경우,
+1단계를 건너뛰고 2단계(합성)부터 시작합니다.
+
+**진입 조건:**
+1. `--external` 뒤에 지정된 manifest.json 파일을 읽기
+2. manifest에 명시된 artifact 파일들이 존재하는지 확인
+3. 최소 1개 이상의 artifact가 존재하면 2단계로 진행
+
+**manifest.json 스키마:**
+```json
+{
+  "version": "1.0",
+  "created_at": "ISO 8601 timestamp",
+  "task_description": "작업 설명 텍스트",
+  "device_info": {
+    "ram_mb": 6144,
+    "concurrency_mode": "parallel | concurrent-2 | sequential"
+  },
+  "models": [
+    {
+      "name": "claude",
+      "artifact_path": ".omc/artifacts/ask/external/claude-2026-03-12T10-00-00.md",
+      "success": true,
+      "timestamp": "ISO 8601",
+      "cli_version": "optional"
+    },
+    {
+      "name": "codex",
+      "artifact_path": ".omc/artifacts/ask/external/codex-2026-03-12T10-00-30.md",
+      "success": true,
+      "timestamp": "ISO 8601"
+    },
+    {
+      "name": "gemini",
+      "artifact_path": ".omc/artifacts/ask/external/gemini-2026-03-12T10-01-00.md",
+      "success": false,
+      "error": "CLI not installed"
+    }
+  ]
+}
+```
+
+**External 모드 Fallback:**
+- `success: true`인 모델만 합성에 사용
+- 성공 모델 3개 → full consensus
+- 성공 모델 2개 → 2-모델 합성 (제한 명시)
+- 성공 모델 1개 → 단독 계획 (ralplan 대체)
+- 성공 모델 0개 → 실패, Claude가 직접 1단계부터 수행
+
+External 모드에서도 **Claude의 자체 분석**은 반드시 수행합니다:
+- 외부 Claude artifact가 있더라도, 현재 저장소 상태를 직접 분석하여 보완 의견을 추가
+- 이는 단순 판정이 아닌, 독립적 분석 관점을 보장하기 위함
+
+External 모드가 아닌 경우 아래 1단계부터 순서대로 수행합니다.
+
+---
+
 ## 프로토콜 (CCG-Ralplan)
 
 ### 1단계: 3-모델 병렬 계획 (Planner)
+
+> **External 모드 시 이 단계를 건너뜁니다.** manifest.json의 artifact를 사용합니다.
 
 아래 3개 모델에게 동일한 계획 요청을 보내되, 각각 독립적으로 수행:
 
@@ -52,7 +117,9 @@ omc ask gemini "다음 batch 작업에 대한 구현 계획을 작성하시오.
 ### 2단계: 합성 (Claude 수행)
 
 3개 모델의 계획 아티팩트를 수집한 후:
-1. `.omc/artifacts/ask/codex-*.md`와 `.omc/artifacts/ask/gemini-*.md`에서 최신 결과 읽기
+1. artifact 읽기:
+   - **일반 모드**: `.omc/artifacts/ask/codex-*.md`와 `.omc/artifacts/ask/gemini-*.md`에서 최신 결과 읽기
+   - **External 모드**: manifest.json의 `models[].artifact_path`에 명시된 파일 읽기
 2. 아래 구조로 합성:
    - **합의점**: 3개 모델이 동의한 항목
    - **충돌점**: 모델간 의견이 다른 항목 (각 모델 입장 명시)
@@ -92,7 +159,9 @@ Critic 판정:
 ### 5단계: 반복 (max 3회)
 
 ITERATE 또는 REJECT 시:
-1. Critic 피드백을 포함하여 1단계로 돌아감
+1. Critic 피드백을 포함하여 수정:
+   - **일반 모드**: 1단계로 돌아감 (3-모델 재계획)
+   - **External 모드**: 외부 artifact 재수집 불가이므로, Claude가 피드백을 반영하여 2단계(합성)를 재수행
 2. 미해결 치명 쟁점이 남아있을 때만 반복
 3. 3회 도달 시 최선 버전을 사용자에게 제시
 
