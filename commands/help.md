@@ -108,6 +108,21 @@ $ARGUMENTS
 | `/k-orchestrator:update` | 플러그인 자체 업데이트 | 새 버전 확인 및 적용 시 |
 | `/k-orchestrator:dashboard` | batch 진행 현황 대시보드 | 전체 진행 상태 한눈에 볼 때 |
 
+## 실행 팁
+
+### OMC 알림 시스템 활용
+batch 완료나 HARDENING 진입 등 주요 이벤트 시 OMC 알림(v4.5.0+)을 활용할 수 있습니다.
+```
+/oh-my-claudecode:configure-notifications   ← Telegram/Discord/Slack 알림 설정
+```
+
+### 대규모 batch에서 /team 활용 (선택)
+`orchestrate-run`의 기본 실행 경로는 `ralplan` → `ralph`이지만,
+대규모 병렬 작업이 필요한 batch에서는 OMC `/team`을 선택적으로 활용할 수 있습니다.
+```
+/oh-my-claudecode:team                      ← N개 agent 병렬 실행 (plan→exec→verify→fix)
+```
+
 ## 워크플로우 다이어그램
 
 ```

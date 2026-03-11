@@ -13,7 +13,7 @@ $ARGUMENTS
 다음 루프를 반복하면서 프로젝트를 launch readiness 방향으로 전진시키십시오.
 
 ## Batch 상태머신 전환 규칙
-- NOT STARTED → OPEN: ralplan 완료
+- NOT STARTED → OPEN: ralplan (/omc-plan --consensus) 완료
 - OPEN → REVIEW: ralph 완료
 - REVIEW → HARDENING: CRITICAL 또는 HIGH 이슈 발견
 - REVIEW → CLOSED: CRITICAL=0, HIGH=0, close pass 통과

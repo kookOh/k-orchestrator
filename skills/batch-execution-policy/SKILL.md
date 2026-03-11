@@ -13,7 +13,7 @@ When working in a project with batch execution rules:
 6. Use `ralph` for implementation persistence
 7. Perform code review before closure
 8. Batch state machine transitions:
-   - NOT STARTED → OPEN: ralplan complete
+   - NOT STARTED → OPEN: ralplan (/omc-plan --consensus) complete
    - OPEN → REVIEW: ralph complete
    - REVIEW → HARDENING: CRITICAL or HIGH issues found
    - REVIEW → CLOSED: CRITICAL=0, HIGH=0, close pass passed

@@ -59,7 +59,7 @@
 | SAFE_PARALLEL_WORK_REMAINS | 인간 작업 없이 병렬 진행 가능한 작업 존재 |
 
 ## Batch 상태머신 전환 규칙
-- NOT STARTED → OPEN: ralplan 완료
+- NOT STARTED → OPEN: ralplan (/omc-plan --consensus) 완료
 - OPEN → REVIEW: ralph 완료
 - REVIEW → HARDENING: CRITICAL 또는 HIGH 이슈 발견
 - REVIEW → CLOSED: CRITICAL=0, HIGH=0, close pass 통과

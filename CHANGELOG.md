@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.3.2] - Documentation Modernization
+
+### 개선
+- 상태머신 정의에 `ralplan (/omc-plan --consensus)` 병기 (orchestrate-run, CC_ORCHESTRATOR_TEMPLATE, batch-execution-policy)
+- help.md: OMC 알림 시스템(v4.5.0+) 활용 팁 추가
+- help.md: 대규모 batch에서 `/team` 선택적 활용 경로 언급
+
+### 호환성
+- OMC 4.1.x ~ 4.7.9 환경에서 동작 확인
+
 ## [1.3.1] - OMC 4.7.9 Compatibility Patch
 
 ### 수정
