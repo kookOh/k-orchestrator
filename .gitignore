@@ -4,3 +4,8 @@ node_modules/
 .env
 *.tmp
 .omc/
+.agents/
+.codex/
+.omx/
+AGENTS.md
+.claude/settings.local.json
