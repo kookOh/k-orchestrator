@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## [1.5.0] - ClaudeBox Integration Prep + Marketplace Rename
+
+### BREAKING
+- marketplace name `k-orchestrator` → `kor` (캐시 경로 충돌 해소)
+  - 기존 설치: `k-orchestrator@k-orchestrator` → `k-orchestrator@kor`로 변경 필요
+  - 신규 설치: `/install-plugin k-orchestrator@kor`
+
+### 신규 기능
+- ccg-plan 1단계: `/oh-my-claudecode:omc-teams` tmux 병렬 실행 지원 (기존 `omc ask` fallback 유지)
+- docs/AI_TEAM_STACK_FINAL.md: ai-team-stack 최종 계획안 (Obsidian vault + Git 1단계)
+- docs/AI_TEAM_STACK_PROMPT_V4.md: ai-team-stack 구축 실행 프롬프트 (CCG 검증 완료)
+- setup-project-suite로 자체 운영 구조 적용 (CLAUDE.md, docs/, tasks/, qa/)
+
+### 개선
+- haimdall 하드코딩 → `${CLAUDEBOX_PROFILE}` 파라미터화 (FINAL, PROMPT_V4)
+- AI_TEAM_STACK_FINAL.md Phase 2 중복 번호 해소 → `장기 계획`으로 분리
+- .gitignore: .agents/, .codex/, .omx/, AGENTS.md, settings.local.json 추가
+
+### 호환성
+- OMC 4.1.x ~ 4.8.x 환경에서 동작 확인
+- Codex CLI / Gemini CLI 미설치 시 기존 `omc ask` fallback
+
 ## [1.4.1] - CCG External Mode
 
 ### 신규 기능

@@ -5,7 +5,7 @@
 - 제품 유형: Claude Code plugin
 - 현재 목표: 플러그인 안정화 및 자체 운영 구조 적용
 - 현재 플랫폼 전제: macOS / Claude Code CLI
-- 현재 launch target: v1.4.1 (현재 릴리스)
+- 현재 launch target: v1.5.0 (현재 릴리스)
 
 ## 현재 상태 요약
 - 현재 상태 분류: STATE_1 (운영 구조 초기 적용 완료)
