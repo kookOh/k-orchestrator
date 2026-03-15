@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # k-orchestrator SessionStart hook — advertise relevant vault context.
 
-set -uo pipefail
+set +e -uo pipefail
 
 echo "[k-orchestrator] SessionStart: CLAUDE.md 및 docs/EXECUTION_STATUS.md를 먼저 확인하세요."
 
