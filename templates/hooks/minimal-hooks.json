@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '[k-orchestrator] PreCompact: compact 전 docs/EXECUTION_STATUS.md 업데이트 여부를 확인하세요.'"
+            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; if [ -f \"$ROOT/hooks/pre-compact.sh\" ]; then bash \"$ROOT/hooks/pre-compact.sh\"; else echo '[k-orchestrator] PreCompact: compact 전 docs/EXECUTION_STATUS.md 업데이트 여부를 확인하세요.'; fi"
           }
         ]
       }

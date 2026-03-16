@@ -17,7 +17,11 @@ trap cleanup EXIT
 
 safe_target_or_die() {
   local target_abs parent_abs
-  parent_abs="$(cd "$(dirname "$TARGET")" && pwd)"
+  parent_abs="$(cd "$(dirname "$TARGET")" 2>/dev/null && pwd)"
+  if [ -z "$parent_abs" ]; then
+    echo "ERROR: parent directory does not exist: $(dirname "$TARGET")" >&2
+    exit 1
+  fi
   target_abs="$parent_abs/$(basename "$TARGET")"
 
   case "$target_abs" in

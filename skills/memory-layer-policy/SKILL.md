@@ -74,7 +74,13 @@ date: YYYY-MM-DD
 26. ingestion 규칙은 downstream 프로젝트(ai-team-stack 등)의 shared-policy/ingestion-workflow.md에서 정의한다
 27. 원본 바이너리(PDF, DOCX 등)는 vault에 그대로 넣지 않고 markdown으로 변환한다 (일반 원칙으로 유지)
 
+## 환경 분기
+`VAULT_DIR` 환경변수가 설정되지 않은 환경에서는 위 23~27번의 vault 관련 규칙을 적용하지 않는다.
+vault 구조, 읽기/쓰기 규칙, ingestion 규칙은 `VAULT_DIR`이 유효한 디렉토리를 가리킬 때만 활성화된다.
+
 ## ClaudeBox / Docker 환경
+`CLAUDEBOX_PROFILE` 환경변수가 없으면 28~31번 ClaudeBox 규칙을 건너뛴다.
+
 28. ClaudeBox 환경의 canonical runtime hook path는 `/opt/k-orchestrator/hooks/*.sh` 이다
 29. `CLAUDEBOX_PROFILE`, `CLAUDEBOX_USER`, `CLAUDEBOX_WORKTREE_ID`, `CLAUDEBOX_BASE_BRANCH`는 메타데이터 및 profile-aware path 구성에만 사용한다
 30. `VAULT_DIR`이 없거나 잘못되었거나 read-only여도 작업을 중단하지 않는다 (graceful degradation)

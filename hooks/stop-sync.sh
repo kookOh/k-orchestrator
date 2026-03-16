@@ -2,14 +2,15 @@
 # k-orchestrator Stop hook — persist a session summary into an Obsidian vault.
 # Non-blocking by design.
 
-set -uo pipefail
+set +e -uo pipefail
 
 VAULT_DIR="${VAULT_DIR:-}"
 CLAUDEBOX_PROFILE="${CLAUDEBOX_PROFILE:-}"
 CLAUDEBOX_USER="${CLAUDEBOX_USER:-unknown}"
 CLAUDEBOX_WORKTREE_ID="${CLAUDEBOX_WORKTREE_ID:-unknown}"
 CLAUDEBOX_BASE_BRANCH="${CLAUDEBOX_BASE_BRANCH:-unknown}"
-STATUS_FILE="docs/EXECUTION_STATUS.md"
+# Claude Code hooks는 프로젝트 루트에서 실행됨 — Docker 환경에서는 WORKDIR이 프로젝트 루트여야 함
+STATUS_FILE="${K_ORCHESTRATOR_STATUS_FILE:-docs/EXECUTION_STATUS.md}"
 
 echo "[k-orchestrator] Stop: batch 상태 및 EXECUTION_STATUS.md 업데이트 확인"
 
@@ -45,14 +46,14 @@ PROFILE_VALUE="${CLAUDEBOX_PROFILE:-unknown}"
 if ! cat > "$FILEPATH" <<EOF_DOC
 ---
 type: session-summary
-profile: $PROFILE_VALUE
-user: $CLAUDEBOX_USER
-worktree: $CLAUDEBOX_WORKTREE_ID
-branch: $CLAUDEBOX_BASE_BRANCH
-date: $ISO_NOW
+profile: "$PROFILE_VALUE"
+user: "$CLAUDEBOX_USER"
+worktree: "$CLAUDEBOX_WORKTREE_ID"
+branch: "$CLAUDEBOX_BASE_BRANCH"
+date: "$ISO_NOW"
 tags:
   - session
-  - ${PROFILE_VALUE}
+  - "$PROFILE_VALUE"
 ---
 
 # 세션 요약
@@ -79,6 +80,7 @@ if [ -d "$VAULT_DIR/.git" ]; then
   (
     cd "$VAULT_DIR" || exit 11
     git add "$FILEPATH" >/dev/null 2>&1 || exit 12
+    # --no-verify: Stop hook 내부에서 Git pre-commit hook 재귀 실행 방지
     git commit -m "k-orchestrator: session summary ${CLAUDEBOX_USER}/${CLAUDEBOX_WORKTREE_ID}" --no-verify >/dev/null 2>&1 || exit 13
   ) || git_state="$?"
 
