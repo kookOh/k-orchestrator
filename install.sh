@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.5.1
+# k-orchestrator plugin installer v1.5.2
 # Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
@@ -39,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.5.1"
+echo "▶ k-orchestrator installer v1.5.2"
 echo "  target: $TARGET"
 echo ""
 
@@ -233,7 +233,7 @@ if [ "$UPDATE_MODE" = true ]; then
 fi
 
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.5.1)"
+echo "✅ k-orchestrator 설치 완료 (v1.5.2)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"

@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## [1.5.2] - ClaudeBox Hardening + 환경 분기
+
+### 보안/안정성 (Hardening)
+- hooks: set +e 추가 — hook 에러가 Claude Code 세션 종료를 막지 않도록 방어
+- stop-sync.sh: YAML frontmatter 값 인용 — 특수문자 안전성 확보
+- stop-sync.sh: STATUS_FILE 경로를 K_ORCHESTRATOR_STATUS_FILE 환경변수로 설정 가능
+- stop-sync.sh: git commit --no-verify 사유 주석 추가
+- install-in-docker.sh: safe_target_or_die cd 실패 시 명확한 에러 메시지
+- pre-compact.sh: 신규 추가 + minimal-hooks.json 연결
+
+### 환경 분기 (non-Docker zero-impact)
+- memory-layer-policy: VAULT_DIR 미설정 시 vault 규칙 비활성화
+- memory-layer-policy: CLAUDEBOX_PROFILE 미설정 시 ClaudeBox 규칙 건너뜀
+- session-state-detector: CLAUDEBOX_PROFILE/VAULT_DIR 미설정 시 감지 건너뜀
+- setup-memory-layer: VAULT_DIR 미설정 시 구축 대신 분석만 수행
+
+### 기타
+- ccg-plan: allowed-tools에 Skill 추가, 3단계 fallback 체인 강화
+
+### 호환성
+- 기존 non-Docker 사용자: update 시 zero-impact (환경 분기로 새 기능 비활성)
+- OMC 4.1.x ~ 4.8.x
+
 ## [1.5.1] - BATCH_01 ClaudeBox Docker + Obsidian Vault
 
 ### 신규 기능
