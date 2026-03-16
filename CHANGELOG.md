@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## [1.5.1] - BATCH_01 ClaudeBox Docker + Obsidian Vault
+
+### 신규 기능
+- install-in-docker.sh: Docker 빌드 전용 설치 래퍼 (install.sh 미수정)
+- hooks/stop-sync.sh: Stop 훅 → Obsidian vault에 세션 요약 저장
+- hooks/session-context-loader.sh: SessionStart → vault 컨텍스트 안내
+- tasks/BATCH_01.md: CCG 3-모델 합의 + Codex 검증 7/7 PASS
+
+### 개선
+- memory-layer-policy: Obsidian vault 구축 지침 추가, Slack ingestion → 범위 밖 명시
+- session-state-detector: ClaudeBox 환경변수 + vault 상태 감지
+- setup-memory-layer: vault 초기 구조 실제 생성 기능
+- minimal-hooks.json: K_ORCHESTRATOR_ROOT 기반 스크립트 호출 + echo fallback
+- CLAUDE_MEMORY_SETUP_TEMPLATE: vault 구체 설정 강화
+
+### 호환성
+- VAULT_DIR 미설정 시 기존 동작 100% 유지 (graceful degradation)
+- haimdall 하드코딩 0건 — CLAUDEBOX_PROFILE 파라미터화
+- OMC 4.1.x ~ 4.8.x 환경에서 동작
+
 ## [1.5.0] - ClaudeBox Integration Prep + Marketplace Rename
 
 ### BREAKING
