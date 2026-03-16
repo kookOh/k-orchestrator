@@ -24,8 +24,8 @@ Launch-critical 진척: [CLOSED 수]/[전체 수]
 
 ## ClaudeBox 환경 감지
 환경변수를 확인하여 ClaudeBox 팀 환경 여부를 판단한다:
-- `CLAUDEBOX_PROFILE` 존재 → ClaudeBox 팀 환경
-- `CLAUDEBOX_PROFILE` 미존재 → 로컬 개인 환경
+- `CLAUDEBOX_PROFILE` 존재 → ClaudeBox 팀 환경 → 아래 정보를 상태 요약에 추가
+- `CLAUDEBOX_PROFILE` 미존재 → 로컬 개인 환경 → **이 섹션과 Vault 상태 감지를 건너뛴다**
 
 ClaudeBox 팀 환경이면 아래 정보를 상태 요약에 추가한다:
 
@@ -39,6 +39,7 @@ Vault: $VAULT_DIR (활성/미설정)
 ```
 
 ## Vault 상태 감지
+`VAULT_DIR` 환경변수가 미설정이면 이 섹션을 건너뛴다.
 `VAULT_DIR`이 설정되어 있으면:
 - vault 디렉토리 존재 여부 확인
 - 최근 세션 요약 파일 수 표시
