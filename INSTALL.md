@@ -43,6 +43,7 @@ memory skill 계층이 필요하면 설치하십시오.
 | 상황 | 명령 |
 |---|---|
 | 새 프로젝트 | foundation-pack → bootstrap-ops → orchestrate-run |
+| 새 프로젝트 (대규모) | ccg-plan → team ralph → orchestrate-run |
 | 진행 중 프로젝트 | bootstrap-ops → orchestrate-run |
 | 세션 재개 | resume-run |
 | 신규 기능 | change-impact → make-extension-block |

@@ -2,7 +2,7 @@
 # k-orchestrator PreCompact hook — 컨텍스트 압축 전 현재 작업 상태를 안내한다.
 # 세션을 막지 않도록 set +e.
 
-set +e
+set +e -uo pipefail
 
 VAULT_DIR="${VAULT_DIR:-}"
 CLAUDEBOX_PROFILE="${CLAUDEBOX_PROFILE:-default}"

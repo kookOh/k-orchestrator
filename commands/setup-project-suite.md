@@ -1,7 +1,7 @@
 ---
 description: 현재 저장소를 감사하고 k-orchestrator 운영 구조를 안전하게 적용하는 전체 bootstrap 진입점
 argument-hint: [optional notes]
-allowed-tools: Read, Write, Bash, Glob
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 현재 이 프로젝트 저장소 안에서 작업하는 Claude Code입니다.

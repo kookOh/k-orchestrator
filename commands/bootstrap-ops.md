@@ -1,7 +1,7 @@
 ---
 description: 저장소 상태를 분류하고 batch 기반 운영 모델로 부트스트랩
 argument-hint: [optional notes]
-allowed-tools: Read, Write, Bash, Glob
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 OMC가 설치되어 있을 수도 있고, 프로젝트 문서가 일부 존재할 수도 있는 저장소 내부에서 작업하는 Claude Code입니다.

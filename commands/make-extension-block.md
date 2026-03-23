@@ -1,7 +1,7 @@
 ---
 description: 현재 source of truth 기준으로 PROJECT EXTENSION BLOCK 완성본 생성
 argument-hint: [feature, constraint, priority notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 현재 source of truth 문서와 실행 상태를 기준으로,

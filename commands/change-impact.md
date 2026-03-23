@@ -1,7 +1,7 @@
 ---
 description: 신규 기능/변경 요청의 영향 분석 - Type A/B/C 판정 및 대응 경로 결정
 argument-hint: [new feature or change request]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 현재 진행 중인 프로젝트 저장소 안에서 작업하는 Claude Code입니다.

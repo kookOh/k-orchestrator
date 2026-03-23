@@ -23,14 +23,14 @@ if [ ! -d "$TARGET" ]; then
   echo "ERROR: 대상 디렉토리가 존재하지 않습니다: $TARGET"
   exit 1
 fi
-TARGET="$(cd "$TARGET" && pwd)"
+TARGET="$(cd "$TARGET" && pwd -P)"
 case "$TARGET" in
   /etc*|/usr*|/bin*|/sbin*|/var*|/System*|/Library*)
     echo "ERROR: 시스템 디렉토리에는 설치할 수 없습니다: $TARGET"
     exit 1;;
 esac
 
-PLUGIN_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 TEMPLATE_DIR="$PLUGIN_DIR/templates"
 
 # 템플릿 디렉토리 존재 확인
@@ -223,6 +223,24 @@ if [ "$UPDATE_MODE" = true ]; then
       mkdir -p "$(dirname "$SKILL_DEST")"
       cp "$SKILL_SRC" "$SKILL_DEST"
       echo "  ✅ 업데이트: .claude/skills/k-orchestrator/$SKILL_NAME/SKILL.md"
+    fi
+  done
+
+  # Orphan cleanup — 소스에서 제거된 skill/command 정리
+  for installed_skill in "$TARGET/.claude/skills/k-orchestrator/"*/; do
+    [ -d "$installed_skill" ] || continue
+    INSTALLED_NAME="$(basename "$installed_skill")"
+    if [ ! -d "$PLUGIN_DIR/skills/$INSTALLED_NAME" ]; then
+      rm -rf "$installed_skill"
+      echo "  🗑  제거(orphan): .claude/skills/k-orchestrator/$INSTALLED_NAME"
+    fi
+  done
+  for installed_cmd in "$TARGET/.claude/commands/k-orchestrator/"*.md; do
+    [ -f "$installed_cmd" ] || continue
+    INSTALLED_CMD_NAME="$(basename "$installed_cmd")"
+    if [ ! -f "$PLUGIN_DIR/commands/$INSTALLED_CMD_NAME" ]; then
+      rm -f "$installed_cmd"
+      echo "  🗑  제거(orphan): .claude/commands/k-orchestrator/$INSTALLED_CMD_NAME"
     fi
   done
 

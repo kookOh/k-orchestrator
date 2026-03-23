@@ -6,19 +6,16 @@
 - 핵심 사용자:
 - 핵심 목표:
 - 현재 기준 문서:
-  - docs/MASTER_BLUEPRINT_PART1.md
-  - docs/MASTER_BLUEPRINT_PART2.md
-  - docs/PRD.md
-  - api-spec.yaml
-  - schema.sql
-  - docs/analytics-events.md
-  - docs/feature-priority.md
-  - docs/launch-checklist.md
+  - (프로젝트의 주요 기준 문서를 나열 — 예: README.md, PRD.md, api-spec.yaml 등)
+
+## 프로젝트 구조 (선택)
+- (주요 디렉토리와 역할을 나열)
 
 ## 현재 운영 해석
 - 현재 제품 정의 요약:
 - 현재 핵심 사용자 흐름 요약:
 - 현재 launch-critical 경로 요약:
+- 현재 버전:
 
 ## 운영 참고
 - 이 문서는 foundation 문서들의 짧은 index/요약본이다

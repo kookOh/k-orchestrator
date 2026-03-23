@@ -1,7 +1,7 @@
 ---
 description: 다음 실행할 batch를 식별하고 OPEN 상태로 준비 - orchestrate-run 전체 루프 없이 단일 batch 착수
 argument-hint: [optional priority notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 현재 이 프로젝트 저장소 안에서 작업하는 Claude Code입니다.

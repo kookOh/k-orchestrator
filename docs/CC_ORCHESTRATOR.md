@@ -16,7 +16,7 @@
 1. 현재 저장소의 실제 코드 상태
 2. docs/EXECUTION_STATUS.md
 3. tasks/BATCH_*.md 및 qa/ 문서
-4. PRD / BLUEPRINT / ARCHITECTURE / API / SCHEMA 문서
+4. README.md / CHANGELOG.md / INSTALL.md
 5. 이전 실행 로그
 
 ## 작업 상태 분류 (Task Status)
@@ -132,8 +132,13 @@
 ## 문서 업데이트 규칙
 - 실행 상태: docs/EXECUTION_STATUS.md
 - batch 계획/상태: tasks/BATCH_*.md
-- QA 및 review 결과: qa/BATCH_*_QA.md
+- QA 및 review 결과: qa/BATCH_*_QA.md 또는 batch 문서 내 인라인 QA 섹션
 - 장기 기준: README.md, CHANGELOG.md
+
+### QA 기록 방식
+- 별도 `qa/BATCH_*_QA.md` 파일 (표준)
+- batch 문서 내 `## QA` 인라인 섹션 (소규모 batch에 허용)
+- 두 방식 혼용 시 별도 파일이 우선
 
 ## 금지사항
 - source of truth 확인 없이 구조를 추정하지 않는다

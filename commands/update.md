@@ -28,9 +28,11 @@ $ARGUMENTS
 임시 디렉토리에 최신 소스를 클론하십시오:
 
 ```bash
-TEMP_DIR="/tmp/k-orchestrator-update-$(date +%s)"
+TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/k-orchestrator-update.XXXXXX")"
 git clone --depth 1 https://github.com/kookOh/k-orchestrator.git "$TEMP_DIR"
 ```
+
+클론 실패 시 `rm -rf "$TEMP_DIR"` 후 오류 메시지를 출력하고 종료하십시오.
 
 `$TEMP_DIR/.claude-plugin/plugin.json`에서 `version` 필드를 읽으십시오.
 
@@ -91,6 +93,18 @@ git clone --depth 1 https://github.com/kookOh/k-orchestrator.git "$TEMP_DIR"
 ### Phase 2: 적용 (Apply)
 
 `--check`가 아닌 경우에만 이 단계를 실행합니다.
+
+#### 2-0. 플러그인 소스 백업
+
+덮어쓰기 전에 현재 플러그인 소스의 상태를 보존하십시오:
+
+```bash
+BACKUP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/k-orchestrator-backup.XXXXXX")"
+cp -R "$PLUGIN_ROOT" "$BACKUP_DIR/"
+echo "백업 생성: $BACKUP_DIR"
+```
+
+Phase 2 실패 시 이 백업에서 복구할 수 있습니다.
 
 #### 2-1. install.sh --update 실행
 
@@ -159,3 +173,10 @@ rm -rf "$TEMP_DIR"
 - plugin.json 없음: "플러그인 메타데이터를 찾을 수 없습니다. 설치 상태를 확인하십시오." 출력
 - install.sh --update 실패: 오류 내용 표시 후 "수동 업데이트를 시도하십시오." 안내
 - 모든 오류 시 임시 디렉토리는 반드시 정리
+
+## 롤백
+
+install.sh --update 실패 시:
+1. 오류 메시지를 사용자에게 표시
+2. 이전 plugin source가 남아있으므로 자동 복구됨 (install.sh --update는 개별 파일 단위 복사)
+3. 부분 적용된 경우: 사용자에게 `git diff`로 변경 확인을 권장하고, 필요 시 `git checkout -- .claude/` 안내

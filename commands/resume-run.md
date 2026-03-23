@@ -6,6 +6,9 @@ allowed-tools: Read, Write, Bash, Glob, Grep
 
 `CLAUDE.md`, `docs/EXECUTION_STATUS.md`, 미닫힘 batch 문서, 관련 QA 문서를 먼저 읽고 현재 상태를 판정하십시오.
 
+`docs/EXECUTION_STATUS.md`가 존재하지 않으면 k-orchestrator가 아직 설정되지 않은 프로젝트이다.
+이 경우 `/k-orchestrator:setup-project-suite` 실행을 권고하고 resume를 종료하십시오.
+
 추가 메모:
 $ARGUMENTS
 

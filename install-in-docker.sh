@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 TARGET="${1:-/opt/k-orchestrator}"
 TEMP_DIR="$(mktemp -d /tmp/k-orchestrator-docker.XXXXXX)"
 STAGE_DIR="$(mktemp -d /tmp/k-orchestrator-bundle.XXXXXX)"
@@ -17,7 +17,7 @@ trap cleanup EXIT
 
 safe_target_or_die() {
   local target_abs parent_abs
-  parent_abs="$(cd "$(dirname "$TARGET")" 2>/dev/null && pwd)"
+  parent_abs="$(cd "$(dirname "$TARGET")" 2>/dev/null && pwd -P)"
   if [ -z "$parent_abs" ]; then
     echo "ERROR: parent directory does not exist: $(dirname "$TARGET")" >&2
     exit 1
@@ -25,7 +25,7 @@ safe_target_or_die() {
   target_abs="$parent_abs/$(basename "$TARGET")"
 
   case "$target_abs" in
-    ''|/|/opt|/tmp|/var|/usr|/bin|/sbin|/System|/Library)
+    ''|/|/opt|/tmp|/var|/usr|/bin|/sbin|/etc|/System|/Library)
       echo "ERROR: unsafe Docker target: $target_abs" >&2
       exit 1
       ;;
@@ -70,11 +70,25 @@ touch "$STAGE_DIR/$MARKER_FILE"
 find "$STAGE_DIR" -name .DS_Store -delete 2>/dev/null || true
 
 mkdir -p "$(dirname "$TARGET")"
+
+# Atomic swap — 기존 번들 백업 후 교체, 실패 시 복구
+BACKUP_DIR=""
 if [ -d "$TARGET" ]; then
-  rm -rf "$TARGET"
+  BACKUP_DIR="${TARGET}.bak.$$"
+  mv "$TARGET" "$BACKUP_DIR"
 fi
-mv "$STAGE_DIR" "$TARGET"
-mkdir -p "$STAGE_DIR"
+
+if mv "$STAGE_DIR" "$TARGET"; then
+  [ -n "$BACKUP_DIR" ] && rm -rf "$BACKUP_DIR"
+else
+  echo "ERROR: bundle 이동 실패 — 복구 시도" >&2
+  if [ -n "$BACKUP_DIR" ]; then
+    if ! mv "$BACKUP_DIR" "$TARGET"; then
+      echo "CRITICAL: 복구 실패 — 수동 확인 필요: $BACKUP_DIR" >&2
+    fi
+  fi
+  exit 1
+fi
 
 echo "✅ k-orchestrator Docker 설치 완료: $TARGET"
-find "$TARGET" -maxdepth 2 -type f | sort
+find "$TARGET" -maxdepth 2 -type f | sort >&2

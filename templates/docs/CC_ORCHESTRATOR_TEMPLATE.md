@@ -71,7 +71,7 @@
 - OMC가 제공하는 모든 agent 역할명을 project-local `.claude/agents/`에 재정의하지 않는다
   (핵심 4종: planner, architect, executor, verifier — 이 외에도 explore, analyst, debugger,
   code-reviewer, security-reviewer, test-engineer, designer, writer 등 OMC가 제공하는 agent 전체 해당)
-- k-orchestrator commands는 OMC command/skill과 같은 이름을 사용하지 않는다
+- 이 프로젝트의 commands는 OMC command/skill과 같은 이름을 사용하지 않는다
 - project-local subagent 정의가 global보다 우선하므로, 이름 겹침은 OMC 동작을 무력화한다
 
 ## 보조 기억 계층 규칙 (선택적)
@@ -108,7 +108,6 @@
 - `ccg-plan` → `team ralph` → code review → hardening → close 권장
 - 또는 `ralplan` → `ralph` → code review → hardening → close
 - code review 단계에서는 OMC의 code-reviewer agent가 자동 활용된다
-  (이전 OMC 버전의 `code-review` skill wrapper는 4.7.8에서 제거됨)
 - EXECUTION_STATUS와 batch 문서 업데이트 필수
 
 ## recall / sync 사용 원칙
@@ -134,9 +133,14 @@
 ## 문서 업데이트 규칙
 - 실행 상태: docs/EXECUTION_STATUS.md
 - batch 계획/상태: tasks/BATCH_*.md
-- QA 및 review 결과: qa/BATCH_*_QA.md
+- QA 및 review 결과: qa/BATCH_*_QA.md 또는 batch 문서 내 인라인 QA 섹션
 - 아키텍처 변경: docs/ARCHITECTURE.md
 - 장기 기준: PRD / BLUEPRINT
+
+### QA 기록 방식
+- 별도 `qa/BATCH_*_QA.md` 파일 (표준)
+- batch 문서 내 `## QA` 인라인 섹션 (소규모 batch에 허용)
+- 두 방식 혼용 시 별도 파일이 우선
 
 ## 금지사항
 - source of truth 확인 없이 구조를 추정하지 않는다

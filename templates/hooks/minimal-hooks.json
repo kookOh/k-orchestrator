@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; if [ -f \"$ROOT/hooks/session-context-loader.sh\" ]; then bash \"$ROOT/hooks/session-context-loader.sh\"; else echo '[k-orchestrator] SessionStart: CLAUDE.md 및 docs/EXECUTION_STATUS.md를 먼저 확인하세요.'; fi"
+            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; case \"$ROOT\" in /*) ;; *) echo '[k-orchestrator] ERROR: K_ORCHESTRATOR_ROOT must be absolute path'; exit 1;; esac; if [ -f \"$ROOT/hooks/session-context-loader.sh\" ]; then bash \"$ROOT/hooks/session-context-loader.sh\"; else echo '[k-orchestrator] SessionStart: CLAUDE.md 및 docs/EXECUTION_STATUS.md를 먼저 확인하세요.'; fi"
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; if [ -f \"$ROOT/hooks/pre-compact.sh\" ]; then bash \"$ROOT/hooks/pre-compact.sh\"; else echo '[k-orchestrator] PreCompact: compact 전 docs/EXECUTION_STATUS.md 업데이트 여부를 확인하세요.'; fi"
+            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; case \"$ROOT\" in /*) ;; *) echo '[k-orchestrator] ERROR: K_ORCHESTRATOR_ROOT must be absolute path'; exit 1;; esac; if [ -f \"$ROOT/hooks/pre-compact.sh\" ]; then bash \"$ROOT/hooks/pre-compact.sh\"; else echo '[k-orchestrator] PreCompact: compact 전 docs/EXECUTION_STATUS.md 업데이트 여부를 확인하세요.'; fi"
           }
         ]
       }
@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; if [ -f \"$ROOT/hooks/stop-sync.sh\" ]; then bash \"$ROOT/hooks/stop-sync.sh\"; else echo '[k-orchestrator] Stop: batch 상태 및 EXECUTION_STATUS.md 업데이트가 완료되었는지 확인하세요.'; fi"
+            "command": "ROOT=\"${K_ORCHESTRATOR_ROOT:-/opt/k-orchestrator}\"; case \"$ROOT\" in /*) ;; *) echo '[k-orchestrator] ERROR: K_ORCHESTRATOR_ROOT must be absolute path'; exit 1;; esac; if [ -f \"$ROOT/hooks/stop-sync.sh\" ]; then bash \"$ROOT/hooks/stop-sync.sh\"; else echo '[k-orchestrator] Stop: batch 상태 및 EXECUTION_STATUS.md 업데이트가 완료되었는지 확인하세요.'; fi"
           }
         ]
       }

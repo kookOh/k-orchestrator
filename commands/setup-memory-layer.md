@@ -1,7 +1,7 @@
 ---
 description: OMC + recall + sync-claude-sessions + Obsidian/QMD 보조 기억 계층을 감사하고 project-local 중심으로 설정
 argument-hint: [optional notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 현재 이 프로젝트 저장소 안에서 작업하는 Claude Code입니다.

@@ -1,7 +1,7 @@
 ---
 description: batch 기반 오케스트레이터 - stop condition 전까지 자동 전진
 argument-hint: [PROJECT EXTENSION BLOCK 또는 추가 메모]
-allowed-tools: Read, Write, Bash, Glob
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 이 저장소 내부에서 실행 오케스트레이터로 동작하는 Claude Code입니다.

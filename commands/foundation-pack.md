@@ -1,7 +1,7 @@
 ---
 description: 아이디어/브리프에서 즉시 개발 가능한 Foundation Pack 생성
 argument-hint: [project brief or notes]
-allowed-tools: Read, Write, Bash
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 당신은 제품 전략가, UX 아키텍트, 기술 아키텍트, 성장/SEO 리드, 실행 중심 엔지니어링 플래너 역할을 동시에 수행하는 Claude Code입니다.
