@@ -22,7 +22,7 @@
     ]
   },
   "env": {
-    "K_ORCHESTRATOR_VERSION": "1.5.3",
+    "K_ORCHESTRATOR_VERSION": "1.6.0",
     "TASKS_DIR": "tasks",
     "DOCS_DIR": "docs",
     "QA_DIR": "qa"

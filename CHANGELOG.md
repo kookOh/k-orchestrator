@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## [1.6.0] - Skills 자동 설치 + Issue #3 수정
+
+### 기능 개선
+- setup-project-suite: skills 미설치 감지 시 3단계 fallback 자동 복구 (Issue #3)
+  1. 플러그인 소스 디렉토리에서 직접 복사
+  2. install.sh --update 실행 안내
+  3. 수동 복사 절차 안내
+
+### 호환성
+- Claude Code CLI: 2.1.x
+- OMC: 4.1.x ~ 4.9.x
+
 ## [1.5.3] - Security Hardening Phase 2
 
 ### Security (Phase 2 Hardening)

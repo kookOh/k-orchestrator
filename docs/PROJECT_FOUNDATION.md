@@ -20,7 +20,7 @@
 ## 현재 운영 해석
 - 현재 제품 정의 요약: Claude Code 플러그인으로서 batch 기반 프로젝트 오케스트레이션 제공
 - 현재 핵심 사용자 흐름: setup-project-suite → foundation-pack → bootstrap-ops → orchestrate-run
-- 현재 버전: v1.5.3
+- 현재 버전: v1.6.0
 
 ## 운영 참고
 - 이 문서는 foundation 문서들의 짧은 index/요약본이다

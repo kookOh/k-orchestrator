@@ -43,11 +43,42 @@ $ARGUMENTS
 - OMC agent 역할명 (planner/architect/executor/verifier 등) 중복 정의 금지 — OMC가 제공하는 모든 agent 해당
 - `docs/PLUGIN_DIAGNOSTIC.md` 생성 — 진단 결과를 기록
 
-## skills 설치 확인
-- `.claude/skills/k-orchestrator/batch-execution-policy/SKILL.md` 존재 확인
-- `.claude/skills/k-orchestrator/memory-layer-policy/SKILL.md` 존재 확인
-- `.claude/skills/k-orchestrator/session-state-detector/SKILL.md` 존재 확인
-- 누락 시 install.sh 재실행 또는 수동 복사 안내
+## skills 설치 확인 및 자동 복구
+
+다음 3개 skill 파일의 존재 여부를 확인하십시오:
+- `.claude/skills/k-orchestrator/batch-execution-policy/SKILL.md`
+- `.claude/skills/k-orchestrator/memory-layer-policy/SKILL.md`
+- `.claude/skills/k-orchestrator/session-state-detector/SKILL.md`
+
+누락된 skill이 있으면 아래 3단계 fallback을 순서대로 시도하십시오:
+
+### Fallback 1: 플러그인 소스에서 직접 복사 (경로 해소 실패 시 Fallback 2로 자동 이행)
+이 명령 파일이 위치한 디렉토리(commands/)의 상위로 올라가 `skills/` 디렉토리를 찾으십시오.
+해당 디렉토리에서 `.claude-plugin/plugin.json`이 존재하면 그곳이 플러그인 소스 루트입니다.
+`skills/*/SKILL.md` 파일을 `.claude/skills/k-orchestrator/*/SKILL.md`로 복사하십시오.
+대상 디렉토리가 없으면 먼저 생성합니다:
+```bash
+mkdir -p .claude/skills/k-orchestrator/batch-execution-policy
+mkdir -p .claude/skills/k-orchestrator/memory-layer-policy
+mkdir -p .claude/skills/k-orchestrator/session-state-detector
+```
+각 skill의 `SKILL.md`를 읽고 대상 경로에 Write로 생성하십시오.
+
+### Fallback 2: install.sh --update 실행
+플러그인 소스 디렉토리를 찾을 수 없는 경우, 사용자에게 다음을 안내하십시오:
+"skills가 설치되지 않았습니다. 다음 명령으로 설치할 수 있습니다:"
+```
+/k-orchestrator:update
+```
+
+### Fallback 3: 수동 복사 안내
+위 두 방법이 모두 실패하면 수동 복사 절차를 안내하십시오:
+"k-orchestrator 플러그인 소스의 skills/ 디렉토리에서 다음 파일을 수동으로 복사하십시오:"
+```
+skills/batch-execution-policy/SKILL.md → .claude/skills/k-orchestrator/batch-execution-policy/SKILL.md
+skills/memory-layer-policy/SKILL.md    → .claude/skills/k-orchestrator/memory-layer-policy/SKILL.md
+skills/session-state-detector/SKILL.md → .claude/skills/k-orchestrator/session-state-detector/SKILL.md
+```
 
 ## OMC 호환성 검증
 - 프로젝트의 `docs/CC_ORCHESTRATOR.md`에서 `code-review` backtick 참조가 남아 있으면 경고
