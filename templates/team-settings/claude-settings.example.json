@@ -4,13 +4,11 @@
     {
       "name": "k-orchestrator",
       "source": "https://github.com/kookOh/k-orchestrator",
-      "version": "1.5.2"
+      "version": "1.5.3"
     }
   ],
   "permissions": {
     "allow": [
-      "Bash(find:*)",
-      "Bash(cat:*)",
       "Bash(ls:*)",
       "Bash(echo:*)",
       "Bash(mkdir:*)",
@@ -19,6 +17,8 @@
       "Write(qa/*)"
     ],
     "deny": [
+      "Bash(rm:*)",
+      "Bash(rm -f:*)",
       "Bash(rm -rf:*)",
       "Bash(rm -r:*)",
       "Bash(git push:*)",
@@ -27,6 +27,6 @@
     ]
   },
   "env": {
-    "K_ORCHESTRATOR_VERSION": "1.5.2"
+    "K_ORCHESTRATOR_VERSION": "1.5.3"
   }
 }

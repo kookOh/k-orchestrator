@@ -3,6 +3,14 @@
 
 set +e -uo pipefail
 
+# 환경변수 sanitize — 영숫자, '.', '_', '-'만 허용 (path traversal 방지)
+sanitize() {
+  local val
+  val="$(printf '%s' "$1" | tr -cd 'a-zA-Z0-9._-' | cut -c1-64)"
+  case "$val" in ..|.) val="invalid" ;; esac
+  printf '%s' "$val"
+}
+
 echo "[k-orchestrator] SessionStart: CLAUDE.md 및 docs/EXECUTION_STATUS.md를 먼저 확인하세요."
 
 VAULT_DIR="${VAULT_DIR:-}"
@@ -15,27 +23,28 @@ if [ -z "$VAULT_DIR" ] || [ ! -d "$VAULT_DIR" ]; then
   echo "[k-orchestrator] VAULT_DIR 미설정 또는 디렉토리 없음 — vault 컨텍스트 안내 스킵"
   exit 0
 fi
-# VAULT_DIR canonicalization + 시스템 디렉토리 blocklist
 VAULT_DIR="$(cd "$VAULT_DIR" 2>/dev/null && pwd -P)" || { echo "[k-orchestrator] VAULT_DIR 해소 실패"; exit 0; }
 case "$VAULT_DIR" in
-  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/proc*|/sys*|/dev*|/System*|/Library*)
-    echo "[k-orchestrator] VAULT_DIR이 시스템 디렉토리 — 거부: $VAULT_DIR"
+  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/proc*|/sys*|/dev*|/System*|/Library*|/private*|/run*|/boot*)
+    echo "[k-orchestrator] VAULT_DIR이 시스템 디렉토리 — 거부"
     exit 0;;
 esac
 
 echo ""
-echo "[k-orchestrator] 📚 Obsidian vault 활성: $VAULT_DIR"
+echo "[k-orchestrator] Obsidian vault 활성: $(basename "$VAULT_DIR")"
 
-# 환경변수 sanitize — 영숫자, '.', '_', '-'만 허용 (path traversal 방지)
-sanitize() { printf '%s' "$1" | tr -cd 'a-zA-Z0-9._-'; }
 SAFE_PROFILE="$(sanitize "${CLAUDEBOX_PROFILE:-unknown}")"
 
-if [ -n "$CLAUDEBOX_PROFILE" ]; then
+SAFE_USER="$(sanitize "${CLAUDEBOX_USER:-unknown}")"
+SAFE_WORKTREE="$(sanitize "${CLAUDEBOX_WORKTREE_ID:-unknown}")"
+SAFE_BRANCH="$(sanitize "${CLAUDEBOX_BASE_BRANCH:-unknown}")"
+
+if [ -n "$SAFE_PROFILE" ] && [ "$SAFE_PROFILE" != "unknown" ]; then
   echo "[k-orchestrator] ClaudeBox 환경"
-  echo "  - Profile: $CLAUDEBOX_PROFILE"
-  echo "  - User: $CLAUDEBOX_USER"
-  echo "  - Worktree: $CLAUDEBOX_WORKTREE_ID"
-  echo "  - Base Branch: $CLAUDEBOX_BASE_BRANCH"
+  echo "  - Profile: $SAFE_PROFILE"
+  echo "  - User: $SAFE_USER"
+  echo "  - Worktree: $SAFE_WORKTREE"
+  echo "  - Base Branch: $SAFE_BRANCH"
   SESSION_DIR="$VAULT_DIR/projects/$SAFE_PROFILE/sessions"
   PROJECT_DIR="$VAULT_DIR/projects/$SAFE_PROFILE"
 else

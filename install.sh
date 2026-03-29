@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.5.2
+# k-orchestrator plugin installer v1.5.3
 # Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
@@ -25,7 +25,7 @@ if [ ! -d "$TARGET" ]; then
 fi
 TARGET="$(cd "$TARGET" && pwd -P)"
 case "$TARGET" in
-  /etc*|/usr*|/bin*|/sbin*|/var*|/System*|/Library*)
+  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/dev*|/proc*|/sys*|/private*|/run*|/boot*|/System*|/Library*)
     echo "ERROR: 시스템 디렉토리에는 설치할 수 없습니다: $TARGET"
     exit 1;;
 esac
@@ -39,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.5.2"
+echo "▶ k-orchestrator installer v1.5.3"
 echo "  target: $TARGET"
 echo ""
 
@@ -248,10 +248,32 @@ if [ "$UPDATE_MODE" = true ]; then
   echo ""
   echo "  ℹ️  프로젝트 문서(docs/, tasks/, qa/)는 업데이트하지 않습니다"
   echo "  ℹ️  필요 시 수동으로 비교하십시오"
+
+  # v1.5.3 보안 업데이트 마이그레이션 안내
+  if [ -f "$TARGET/.claude/settings.json" ]; then
+    NEEDS_MIGRATION=false
+    if grep -q 'find:\*\|cat:\*' "$TARGET/.claude/settings.json" 2>/dev/null; then
+      NEEDS_MIGRATION=true
+    fi
+    if ! grep -q '"Bash(rm:\*)"' "$TARGET/.claude/settings.json" 2>/dev/null; then
+      NEEDS_MIGRATION=true
+    fi
+    if [ "$NEEDS_MIGRATION" = true ]; then
+      echo ""
+      echo "  ⚠️  보안 업데이트 안내 (v1.5.3):"
+      echo "  .claude/settings.json을 수동으로 업데이트하세요:"
+      echo "    allow 섹션에서 제거:"
+      echo '      - "Bash(find:*)"'
+      echo '      - "Bash(cat:*)"'
+      echo "    deny 섹션에 추가:"
+      echo '      - "Bash(rm:*)"'
+      echo '      - "Bash(rm -f:*)"'
+    fi
+  fi
 fi
 
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.5.2)"
+echo "✅ k-orchestrator 설치 완료 (v1.5.3)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"

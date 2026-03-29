@@ -140,6 +140,18 @@
 - batch 문서 내 `## QA` 인라인 섹션 (소규모 batch에 허용)
 - 두 방식 혼용 시 별도 파일이 우선
 
+## Hook 보안 규칙
+- hook stdout은 Claude Code의 `<system-reminder>` 컨텍스트에 주입된다 — 모든 echo에 sanitize된 `SAFE_*` 변수만 사용한다
+- raw 환경변수(`$CLAUDEBOX_PROFILE`, `$CLAUDEBOX_USER` 등)를 직접 echo하지 않는다
+- `VAULT_DIR`는 반드시 `pwd -P`로 canonicalize 후 blocklist 검증한다
+- Golden blocklist 표준 (모든 hook/install script에 일관 적용):
+  ```
+  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/dev*|/proc*|/sys*|/System*|/Library*|/private*|/run*|/boot*
+  ```
+  `install-in-docker.sh`만 `/opt` (exact match) 추가
+- settings template의 allow 규칙에 bare wildcard(`Bash(cat:*)`, `Bash(find:*)`) 사용을 금지한다 — 경로 제한 패턴만 허용
+- deny 규칙에는 모든 삭제 변형(`rm`, `rm -f`, `rm -r`, `rm -rf`)을 포함한다
+
 ## 금지사항
 - source of truth 확인 없이 구조를 추정하지 않는다
 - 무한한 폴리싱 루프에 빠지지 않는다

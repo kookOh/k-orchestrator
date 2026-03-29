@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [1.5.3] - Security Hardening Phase 2
+
+### Security (Phase 2 Hardening)
+- hook sanitize 함수 강화: 64자 제한, `..`/`.` 검증, SAFE_* 변수 일관 적용
+- hook echo에서 raw 환경변수/경로 제거 (VAULT_DIR basename만 출력)
+- install.sh/install-in-docker.sh blocklist 확장 (시스템 디렉토리 추가 차단)
+- Golden blocklist 표준에 `/private*`, `/run*`, `/boot*` 추가 — 모든 hook/install 일관 적용
+- stop-sync.sh: STATUS_FILE path traversal 방지, symlink 쓰기 거부, atomic swap
+- install-in-docker.sh: /tmp 회귀 수정 — mktemp을 $SCRIPT_DIR 로컬 temp로 변경
+- CC_ORCHESTRATOR.md: Hook 보안 규칙 섹션 신규 추가
+
+### BREAKING
+- templates/settings: `Bash(find:*)`, `Bash(cat:*)` allow 제거
+- templates/settings: `Bash(rm:*)`, `Bash(rm -f:*)` deny 추가
+- 기존 프로젝트는 `.claude/settings.json` 수동 업데이트 필요
+  (`install.sh --update` 실행 시 안내 메시지 표시)
+
+### 호환성
+- Claude Code CLI: 2.1.x
+- OMC: 4.1.x ~ 4.9.x
+
 ## [1.5.2] - ClaudeBox Hardening + 환경 분기
 
 ### 보안/안정성 (Hardening)

@@ -5,8 +5,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 TARGET="${1:-/opt/k-orchestrator}"
-TEMP_DIR="$(mktemp -d /tmp/k-orchestrator-docker.XXXXXX)"
-STAGE_DIR="$(mktemp -d /tmp/k-orchestrator-bundle.XXXXXX)"
+TEMP_DIR="$(mktemp -d "$SCRIPT_DIR/.tmp-docker.XXXXXX")"
+STAGE_DIR="$(mktemp -d "$SCRIPT_DIR/.tmp-bundle.XXXXXX")"
 MARKER_FILE=".k-orchestrator-bundle"
 
 cleanup() {
@@ -25,7 +25,7 @@ safe_target_or_die() {
   target_abs="$parent_abs/$(basename "$TARGET")"
 
   case "$target_abs" in
-    ''|/|/opt|/tmp|/var|/usr|/bin|/sbin|/etc|/System|/Library)
+    ''|/|/opt|/tmp*|/var*|/usr*|/bin*|/sbin*|/etc*|/System*|/Library*|/proc*|/sys*|/dev*|/private*|/run*|/boot*)
       echo "ERROR: unsafe Docker target: $target_abs" >&2
       exit 1
       ;;

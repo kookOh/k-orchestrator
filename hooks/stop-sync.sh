@@ -5,19 +5,25 @@
 set +e -uo pipefail
 
 # 환경변수 sanitize — 영숫자, '.', '_', '-'만 허용 (path traversal 방지)
-sanitize() { printf '%s' "$1" | tr -cd 'a-zA-Z0-9._-'; }
+sanitize() {
+  local val
+  val="$(printf '%s' "$1" | tr -cd 'a-zA-Z0-9._-' | cut -c1-64)"
+  case "$val" in ..|.) val="invalid" ;; esac
+  printf '%s' "$val"
+}
 
 VAULT_DIR="${VAULT_DIR:-}"
 CLAUDEBOX_PROFILE="${CLAUDEBOX_PROFILE:-}"
 SAFE_USER="$(sanitize "${CLAUDEBOX_USER:-unknown}")"
 SAFE_WORKTREE="$(sanitize "${CLAUDEBOX_WORKTREE_ID:-unknown}")"
 SAFE_BRANCH="$(sanitize "${CLAUDEBOX_BASE_BRANCH:-unknown}")"
-# Claude Code hooks는 프로젝트 루트에서 실행됨 — Docker 환경에서는 WORKDIR이 프로젝트 루트여야 함
 STATUS_FILE="${K_ORCHESTRATOR_STATUS_FILE:-docs/EXECUTION_STATUS.md}"
-# STATUS_FILE 경로 제한 — 절대경로/path traversal 차단
+# docs/ 하위 .md 파일만 허용 (bash case의 *는 /도 매칭하므로 traversal 차단 필수)
 case "$STATUS_FILE" in
-  /*|*../*)
-    echo "[k-orchestrator] STATUS_FILE에 절대경로 또는 '..'이 포함됨 — 기본값 사용"
+  *../*|*/..*|*..) STATUS_FILE="docs/EXECUTION_STATUS.md" ;;
+  docs/*.md) ;; # 허용
+  *)
+    echo "[k-orchestrator] STATUS_FILE이 허용 범위 외 — 기본값 사용"
     STATUS_FILE="docs/EXECUTION_STATUS.md"
     ;;
 esac
@@ -28,16 +34,15 @@ if [ -z "$VAULT_DIR" ] || [ ! -d "$VAULT_DIR" ]; then
   echo "[k-orchestrator] VAULT_DIR 미설정 또는 디렉토리 없음 — vault 동기화 스킵"
   exit 0
 fi
-# VAULT_DIR canonicalization + 시스템 디렉토리 blocklist
 VAULT_DIR="$(cd "$VAULT_DIR" 2>/dev/null && pwd -P)" || { echo "[k-orchestrator] VAULT_DIR 해소 실패"; exit 0; }
 case "$VAULT_DIR" in
-  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/proc*|/sys*|/dev*|/System*|/Library*)
-    echo "[k-orchestrator] VAULT_DIR이 시스템 디렉토리 — 거부: $VAULT_DIR"
+  /|/etc*|/usr*|/bin*|/sbin*|/var*|/tmp*|/proc*|/sys*|/dev*|/System*|/Library*|/private*|/run*|/boot*)
+    echo "[k-orchestrator] VAULT_DIR이 시스템 디렉토리 — 거부"
     exit 0;;
 esac
 
 if [ ! -r "$STATUS_FILE" ]; then
-  echo "[k-orchestrator] $STATUS_FILE 없음 또는 읽기 불가 — 최소 메타데이터만 기록합니다"
+  echo "[k-orchestrator] STATUS_FILE 없음 또는 읽기 불가 — 최소 메타데이터만 기록합니다"
   STATUS_CONTENT="- EXECUTION_STATUS.md unavailable"
 else
   STATUS_CONTENT="$(cat "$STATUS_FILE")"
@@ -45,7 +50,7 @@ fi
 
 SAFE_PROFILE="$(sanitize "${CLAUDEBOX_PROFILE:-unknown}")"
 
-if [ -n "$CLAUDEBOX_PROFILE" ]; then
+if [ -n "$SAFE_PROFILE" ] && [ "$SAFE_PROFILE" != "unknown" ]; then
   SESSION_DIR="$VAULT_DIR/projects/$SAFE_PROFILE/sessions"
 else
   SESSION_DIR="$VAULT_DIR/sessions"
@@ -62,8 +67,11 @@ DATE_DISPLAY="$(date -u +"%Y-%m-%d %H:%M UTC")"
 FILE_BASENAME="${TIMESTAMP}_${SAFE_USER}_${SAFE_WORKTREE}.md"
 FILEPATH="$SESSION_DIR/$FILE_BASENAME"
 
-# Quoted heredoc (<<'EOF') — shell 확장 비활성화로 $STATUS_CONTENT 내 $ 문자 보호
-# 변수는 heredoc 외부에서 sed로 삽입
+if [ -L "$FILEPATH" ]; then
+  echo "[k-orchestrator] FILEPATH가 심볼릭 링크 — 쓰기 거부: $(basename "$FILEPATH")"
+  exit 0
+fi
+
 if ! cat > "$FILEPATH" <<'EOF_DOC'
 ---
 type: session-summary
@@ -94,26 +102,28 @@ then
   exit 0
 fi
 
-# placeholder를 실제 값으로 치환 (sed 구분자에 | 사용 — 값에 / 포함 가능)
-# STATUS_CONTENT는 여러 줄이므로 임시 파일 기반 치환
-{
-  sed -e "s|__PROFILE__|${SAFE_PROFILE}|g" \
-      -e "s|__USER__|${SAFE_USER}|g" \
-      -e "s|__WORKTREE__|${SAFE_WORKTREE}|g" \
-      -e "s|__BRANCH__|${SAFE_BRANCH}|g" \
-      -e "s|__ISO_NOW__|${ISO_NOW}|g" \
-      -e "s|__DATE_DISPLAY__|${DATE_DISPLAY}|g" \
-      "$FILEPATH"
-} > "${FILEPATH}.tmp" 2>/dev/null
+if sed -e "s|__PROFILE__|${SAFE_PROFILE}|g" \
+       -e "s|__USER__|${SAFE_USER}|g" \
+       -e "s|__WORKTREE__|${SAFE_WORKTREE}|g" \
+       -e "s|__BRANCH__|${SAFE_BRANCH}|g" \
+       -e "s|__ISO_NOW__|${ISO_NOW}|g" \
+       -e "s|__DATE_DISPLAY__|${DATE_DISPLAY}|g" \
+       "$FILEPATH" > "${FILEPATH}.tmp" 2>/dev/null; then
+  if STATUS_CONTENT="$STATUS_CONTENT" awk '{
+    if ($0 == "__STATUS_CONTENT__") print ENVIRON["STATUS_CONTENT"]
+    else print
+  }' "${FILEPATH}.tmp" > "${FILEPATH}.new" 2>/dev/null; then
+    mv -f "${FILEPATH}.new" "$FILEPATH"
+  else
+    echo "[k-orchestrator] awk 치환 실패 — sed 결과로 fallback"
+    mv -f "${FILEPATH}.tmp" "$FILEPATH"
+  fi
+else
+  echo "[k-orchestrator] sed 치환 실패 — heredoc 원본 유지"
+fi
+rm -f "${FILEPATH}.tmp" "${FILEPATH}.new"
 
-# STATUS_CONTENT 여러 줄 치환 — ENVIRON으로 escape 해석 없이 전달
-STATUS_CONTENT="$STATUS_CONTENT" awk '{
-  if ($0 == "__STATUS_CONTENT__") print ENVIRON["STATUS_CONTENT"]
-  else print
-}' "${FILEPATH}.tmp" > "$FILEPATH" 2>/dev/null
-rm -f "${FILEPATH}.tmp"
-
-echo "[k-orchestrator] 세션 요약 저장: $FILEPATH"
+echo "[k-orchestrator] 세션 요약 저장: $(basename "$FILEPATH")"
 
 if [ -d "$VAULT_DIR/.git" ]; then
   git_state="success"
