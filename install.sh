@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# k-orchestrator plugin installer v1.6.0
+# k-orchestrator plugin installer v1.7.0
 # Usage: ./install.sh [--update] [--force] [target-project-dir]
 
 set -euo pipefail
@@ -39,7 +39,7 @@ if [ ! -d "$TEMPLATE_DIR" ]; then
   exit 1
 fi
 
-echo "▶ k-orchestrator installer v1.6.0"
+echo "▶ k-orchestrator installer v1.7.0"
 echo "  target: $TARGET"
 echo ""
 
@@ -249,7 +249,7 @@ if [ "$UPDATE_MODE" = true ]; then
   echo "  ℹ️  프로젝트 문서(docs/, tasks/, qa/)는 업데이트하지 않습니다"
   echo "  ℹ️  필요 시 수동으로 비교하십시오"
 
-  # v1.6.0 보안 업데이트 마이그레이션 안내
+  # v1.7.0 보안 업데이트 마이그레이션 안내
   if [ -f "$TARGET/.claude/settings.json" ]; then
     NEEDS_MIGRATION=false
     if grep -q 'find:\*\|cat:\*' "$TARGET/.claude/settings.json" 2>/dev/null; then
@@ -260,7 +260,7 @@ if [ "$UPDATE_MODE" = true ]; then
     fi
     if [ "$NEEDS_MIGRATION" = true ]; then
       echo ""
-      echo "  ⚠️  보안 업데이트 안내 (v1.6.0):"
+      echo "  ⚠️  보안 업데이트 안내 (v1.7.0):"
       echo "  .claude/settings.json을 수동으로 업데이트하세요:"
       echo "    allow 섹션에서 제거:"
       echo '      - "Bash(find:*)"'
@@ -273,7 +273,7 @@ if [ "$UPDATE_MODE" = true ]; then
 fi
 
 echo ""
-echo "✅ k-orchestrator 설치 완료 (v1.6.0)"
+echo "✅ k-orchestrator 설치 완료 (v1.7.0)"
 echo ""
 echo "설치된 구조:"
 echo "  docs/CC_ORCHESTRATOR.md          — 운영 정책"

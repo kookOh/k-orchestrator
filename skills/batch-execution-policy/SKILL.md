@@ -29,3 +29,5 @@ When working in a project with batch execution rules:
 10. Keep batch notes human-readable in `tasks/` and current state in `docs/EXECUTION_STATUS.md`
 11. Treat `.omc/*` as secondary execution memory, not the official task ledger
 12. Update `docs/EXECUTION_STATUS.md` after every batch close
+13. 문서 업데이트: 실행 상태는 docs/EXECUTION_STATUS.md, batch 계획/상태는 tasks/BATCH_*.md, QA 결과는 qa/BATCH_*_QA.md 또는 batch 문서 내 인라인 QA 섹션에 기록한다
+14. QA 기록이 별도 파일과 인라인 양쪽에 있으면 별도 파일이 우선한다

@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## [1.7.0] - Token Optimization — 상시 로드 오버헤드 49% 절감
+
+### 최적화
+- CC_ORCHESTRATOR.md: 8,862 → 3,650 bytes (-59%) — 5개 중복 섹션 제거, 2개 축약형 교체
+- 제거된 규칙은 기존 skills/commands에서 on-demand 로드 (기능 손실 없음)
+  - 작업 상태 분류, Batch 상태머신 → orchestrate-run command + batch-execution-policy skill
+  - 보조 기억 계층, recall/sync → memory-layer-policy skill
+  - 문서 업데이트/QA 기록 → batch-execution-policy skill (규칙 13, 14 추가)
+  - Hook 보안 규칙 → 금지사항 1줄 축약 (상세는 hook 코드 자체가 source of truth)
+- 종료 판정 체계: 테이블 2개 → Primary/Secondary enum 목록 축약
+- 작업 크기별 운영 방식: 3개 서브섹션 → 3줄 축약
+- 상시 로드(@docs) 파일 간 중복 정의: 7개 → 0
+
+### 호환성
+- Claude Code CLI: 2.1.x
+- OMC: 4.1.x ~ 4.9.x
+
 ## [1.6.0] - Skills 자동 설치 + Issue #3 수정
 
 ### 기능 개선
